@@ -51,17 +51,23 @@ def Update():
             for item in os.listdir(source_dir):
                 s = os.path.join(source_dir, item)
                 d = os.path.join(target_dir, item)
-                if os.path.isdir(s):
-                    if os.path.exists(d):
-                        shutil.rmtree(d)  # 如果目标目录存在，则删除
-                    shutil.move(s, target_dir)
-                else:
-                    if os.path.exists(d):
-                        os.remove(d)  # 如果目标文件存在，则删除
-                    shutil.move(s, d)
+                try:
+                    if os.path.isdir(s):
+                        if os.path.exists(d):
+                            shutil.rmtree(d)  # 如果目标目录存在，则删除
+                        shutil.move(s, target_dir)
+                    else:
+                        if os.path.exists(d):
+                            os.remove(d)  # 如果目标文件存在，则删除
+                        shutil.move(s, d)
+                except OSError as e:
+                    print(f"无法删除或移动 {d}，因为它正在被占用。")
 
             # 删除临时目录
-            shutil.rmtree(extract_temp_dir)
+            try:
+                shutil.rmtree(extract_temp_dir)
+            except OSError as e:
+                print(f"无法删除临时目录 {extract_temp_dir}，可能有文件正在被占用。")
             print("更新完成。")
     else:
         print("\033[1;32m当前已是最新代码。\033[0m")
