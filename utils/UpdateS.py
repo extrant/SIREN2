@@ -34,8 +34,6 @@ def Update():
             ps_command = f"Invoke-WebRequest -Uri {zip_url} -OutFile {temp_zip_path}"
             subprocess.run(["powershell", "-Command", ps_command], check=True)
             print("下载完成。")
-
-            # 解压ZIP文件到临时目录
             extract_temp_dir = 'temporary_directory'
             print("开始解压...")
             with zipfile.ZipFile(temp_zip_path, 'r') as zip_ref:
@@ -43,27 +41,23 @@ def Update():
             print("解压完成。")
             os.remove(temp_zip_path)  # 删除临时zip文件
 
-            # 将解压出来的SIREN2-main目录下的所有内容移动到指定目录
             source_dir = os.path.join(extract_temp_dir, 'SIREN2-main')
             target_dir = r'.\plugins\SIREN2'
-            if not os.path.exists(target_dir):
-                os.makedirs(target_dir)
-            for item in os.listdir(source_dir):
-                s = os.path.join(source_dir, item)
-                d = os.path.join(target_dir, item)
+            for root, dirs, files in os.walk(source_dir):
+                relative_path = os.path.relpath(root, source_dir)
+                target_root = os.path.join(target_dir, relative_path)
                 try:
-                    if os.path.isdir(s):
-                        if os.path.exists(d):
-                            shutil.rmtree(d)  # 如果目标目录存在，则删除
-                        shutil.move(s, target_dir)
-                    else:
-                        if os.path.exists(d):
-                            os.remove(d)  # 如果目标文件存在，则删除
-                        shutil.move(s, d)
-                except OSError as e:
-                    print(f"无法删除或移动 {d}，因为它正在被占用。")
+                    if not os.path.exists(target_root):
+                        os.makedirs(target_root)
+                    for file in files:
+                        source_file = os.path.join(root, file)
+                        target_file = os.path.join(target_root, file)
+                        if os.path.exists(target_file):
+                            os.remove(target_file)
+                        shutil.move(source_file, target_file)
+                except:
+                    print(f"无法处理目录 {target_file}，可能有文件正在被占用。")
 
-            # 删除临时目录
             try:
                 shutil.rmtree(extract_temp_dir)
             except OSError as e:
