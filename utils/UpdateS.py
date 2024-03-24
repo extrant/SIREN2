@@ -46,22 +46,22 @@ def Update():
             for root, dirs, files in os.walk(source_dir):
                 relative_path = os.path.relpath(root, source_dir)
                 target_root = os.path.join(target_dir, relative_path)
-                try:
-                    if not os.path.exists(target_root):
-                        os.makedirs(target_root)
-                    for file in files:
-                        source_file = os.path.join(root, file)
-                        target_file = os.path.join(target_root, file)
+                if not os.path.exists(target_root):
+                    os.makedirs(target_root)
+                for file in files:
+                    source_file = os.path.join(root, file)
+                    target_file = os.path.join(target_root, file)
+                    try:
                         if os.path.exists(target_file):
                             os.remove(target_file)
                         shutil.move(source_file, target_file)
-                except:
-                    print(f"无法处理目录 {target_file}，可能有文件正在被占用。")
+                    except Exception as e:
+                        print(f"无法处理文件 {target_file}，可能因为文件正在被占用或其他错误：{e}")
 
             try:
                 shutil.rmtree(extract_temp_dir)
             except OSError as e:
-                print(f"无法删除临时目录 {extract_temp_dir}，可能有文件正在被占用。")
+                print(f"无法删除临时目录 {extract_temp_dir}，可能有文件正在被占用：{e}")
             print("更新完成。")
     else:
         print("\033[1;32m当前已是最新代码。\033[0m")
