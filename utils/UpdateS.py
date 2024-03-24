@@ -16,7 +16,7 @@ def Update():
     remote_hash = hashlib.sha256(remote_file_contents.encode('utf-8')).hexdigest()
 
     # 计算本地__init__.py文件的哈希值
-    local_file_path = '.\plugins\SIREN2\version.txt'
+    local_file_path = '.\plugins\SIREN2\\version.txt'
     with open(local_file_path, 'r', encoding='utf-8') as file:
         local_file_contents = file.read()
     local_hash = hashlib.sha256(local_file_contents.encode('utf-8')).hexdigest()
