@@ -7,7 +7,7 @@ import requests
 
 def Update():
     # 获取GitHub上__init__.py文件的最新内容
-    url = "https://api.github.com/repos/extrant/SIREN2/contents/__init__.py"
+    url = "https://api.github.com/repos/extrant/SIREN2/contents/version.txt"
     headers = {'Accept': 'application/vnd.github.v3.raw'}
     response = requests.get(url, headers=headers)
     remote_file_contents = response.text
@@ -16,13 +16,13 @@ def Update():
     remote_hash = hashlib.sha256(remote_file_contents.encode('utf-8')).hexdigest()
 
     # 计算本地__init__.py文件的哈希值
-    local_file_path = '.\plugins\SIREN2\__init__.py'
+    local_file_path = '.\plugins\SIREN2\version.txt'
     with open(local_file_path, 'r', encoding='utf-8') as file:
         local_file_contents = file.read()
     local_hash = hashlib.sha256(local_file_contents.encode('utf-8')).hexdigest()
 
     if remote_hash != local_hash:
-        print("\033[1;31m检测到新版本，文件__init__.py有更新\033[0m")
+        print("\033[1;31m检测到新版本，文件version有更新\033[0m")
         print("\033[1;32m更新完成后请手动重启FFD")
         update = input("是否更新到最新的代码? (y/n): \033[0m")
         if update.lower() == 'y':
