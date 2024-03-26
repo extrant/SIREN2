@@ -23,7 +23,7 @@ def Update():
 
     if remote_hash != local_hash:
         print("\033[1;31m检测到新版本，文件version有更新\033[0m")
-        print("\033[1;32m更新完成后请手动重启FFD")
+        print("\033[1;32m本更新为无缝更新，更新完成后无需重启FFD")
         update = input("是否更新到最新的代码? (y/n): \033[0m")
         if update.lower() == 'y':
             # 设置下载ZIP文件的URL
