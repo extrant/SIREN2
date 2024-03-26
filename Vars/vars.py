@@ -54,3 +54,13 @@ mch_player1 = None
 mch_player2 = None
 mch_player3 = None
 mch_main = None
+
+a29228_remain = 0
+target_bianzhu_id = 0
+#机工变量
+########################################
+a29537_remain = 0
+a29537_high = 0
+a29537_pos = None
+smn_fire = False
+smn_textdis = "初始化状态"
