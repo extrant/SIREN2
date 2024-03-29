@@ -10,6 +10,16 @@ result_list = []
 id_name = "无"
 
 用过净化了 = False
+
+def sam_command(_, args):
+    if len(args) < 1: return
+    if args[0] == "AUTO" and args[1] == "On":
+        vars.sam_able = True                            
+    if args[0] == "AUTO" and args[1] == "Off":
+        vars.sam_able = False  
+  
+
+
 #武士最近
 def select_closest_enemy_with_status(m: CombatMem, select_status_id: int) -> Optional[Actor]:  # 斩铁剑选择器
     me = m.me
@@ -85,6 +95,7 @@ def samurai_pvp(m, is_pvp=True):
     global 用过净化了
     vars.now_job = 34
     if (me := m.me) is None: return 4
+    vars.sam_me = me.id
     #if (target := m.targets.current) is None: return "无目标！"
     if vars.is_mount != 0: return "坐骑状态中"    
     if not m.is_enemy(me, target): return 6
@@ -112,6 +123,9 @@ def samurai_pvp(m, is_pvp=True):
             )
     if m.limit_break_gauge.gauge != m.limit_break_gauge.gauge_one:
         用过净化了 = False
+    if vars.sam_used_bing is True and vars.san_sanlianbing is True:
+        m.action_state.use_action(29523)
+        imgui.text('操作你')
     if vars.sam_select_mode == 0:
         target_enemy = select_closest_enemy_with_status(m, 3202)
     if vars.sam_select_mode == 1:
@@ -167,7 +181,12 @@ def sam_panel():
     _, vars.sam_select_mode = imgui.combo("Mode", vars.sam_select_mode, 交换显示, len(交换显示))
     _, vars.jinhua_quanju_sa = imgui.checkbox('武士LB净化', vars.jinhua_quanju_sa )
     imgui.same_line()
-    _, vars.use_mjing = imgui.checkbox('武士地天自动明镜', vars.use_mjing )  
+    _, vars.use_mjing = imgui.checkbox('武士地天自动明镜', vars.use_mjing )
+    _, vars.san_sanlianbing = imgui.checkbox('早天自动强制冰雪', vars.san_sanlianbing )
+    imgui.text(f'当前状态:{str(vars.sam_able)}')
+    imgui.same_line()
+    if imgui.button("自动斩开关"):
+        vars.sam_able = not vars.sam_able
     if vars.sam_select_mode == 1:
         _, vars.sam_select_counts = imgui.slider_float("多斩人数", vars.sam_select_counts, 0, 10, "%.0f")
     

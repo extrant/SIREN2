@@ -17,6 +17,7 @@ def smn_test(m, is_pvp=True):
     global me
     vars.now_job = 27
     me = m.me
+    
     if vars.used_mode == 1: 
         if vars.be_target and vars.be_target.isdigit():
             vars.mch_player1 = m.main.main.mem.actor_table.get_actor_by_id(int(vars.be_target))
@@ -178,7 +179,7 @@ def smn_panel():
     imgui.text("Summon V2")
     _, vars.a29537_high = imgui.slider_float("龙神空中高度", vars.a29537_high, -1, 30, "%.0f")    
     
-    交换显示 = ['接收模式', '发送模式'] 
+    交换显示 = ['接收模式', '发送模式','孤儿模式'] 
     _, vars.used_mode = imgui.combo("Mode", vars.used_mode, 交换显示, len(交换显示))
     #imgui.same_line()
     imgui.text(f'MeID:{str(me.id)}')
@@ -211,3 +212,7 @@ def smn_panel():
     if vars.used_mode == 0:    
         imgui.text(str(vars.main_target))
         _, vars.main_target = imgui.input_text("输入主控 用户ID:", str(vars.main_target), 100)       
+
+    if vars.used_mode == 2:    
+        imgui.text('单人战场模式')
+        imgui.text('施工勿催')

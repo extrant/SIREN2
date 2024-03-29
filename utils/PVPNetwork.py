@@ -16,7 +16,7 @@ def on_effect(evt: NetworkMessage[ActionEffect]):  #网络包相关
                 print(data.main_target_id)
 
     if vars.now_job == 27:
-        print(evt.header.source_id)
+        #print(evt.header.source_id)
         if vars.use_ip is True and vars.main_target == "": return "无目标"
         if vars.use_ip is True and vars.main_target == "0": return "无目标"
         if vars.use_ip is True and vars.main_target != "0":
@@ -26,7 +26,13 @@ def on_effect(evt: NetworkMessage[ActionEffect]):  #网络包相关
                 vars.target_lb_id = 1
                 print(data.main_target_id)
 
-
+    if vars.now_job == 34:
+        data = evt.message
+        if vars.sam_me is not None:
+            if data.action_id == 29532 and evt.header.source_id == int(vars.sam_me):
+                vars.sam_used_bing = True
+            if data.action_id == 29526 and evt.header.source_id == int(vars.sam_me):
+                vars.sam_used_bing = False              
     if vars.now_job == 24:
     
         if vars.a29228_remain > 0: vars.target_bianzhu_id = None        

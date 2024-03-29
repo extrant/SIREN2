@@ -4,13 +4,15 @@ from ff_draw.gui.text import TextPosition
 from ff_draw.plugins import FFDrawPlugin
 import nylib.utils.win32.memory as ny_mem
 import pathlib
+import glm
 from fpt4.utils.sqpack import SqPack
 from ff_draw.main import FFDraw
-
+from .utils import ShellInject, struct2dict, dict2struct, Patch, Hack
+from .shell import MoveHookConfig
 if typing.TYPE_CHECKING:
     from . import Hacks
 from ..Vars import vars
-
+from nylib.utils.imgui import ctx as imgui_ctx
 
 sq_pack = SqPack.get()
 
@@ -123,7 +125,7 @@ res = install_speed_hook()
         self.main.storage.save()
 
     def draw_panel(self):
-        changed, new_val = imgui.checkbox("Max Accel", self.max_accel)
+        changed, new_val = imgui.checkbox("最大加速度", self.max_accel)
         if changed: self.max_accel = new_val
         changed, new_val = imgui.slider_float("Speed", self.speed, 0, 3, "%.2f", .1)
 
@@ -151,7 +153,7 @@ def create_knock_hook():
         return addressof(getattr(getattr(inject_server, key), 'val'))
     val = c_float(0)
     def knock_hook(hook, a1):
-        print(f"get_hooked_message {str(a1)} ")
+        #print(f"get_hooked_message {str(a1)} ")
         return a1#hook.original(a1)
     hook = create_hook(actorLBAdress1, ctypes.c_uint64, [ctypes.c_int64])(knock_hook).install_and_enable()
     setattr(hook, 'val', val)
@@ -215,47 +217,414 @@ uninstall(key)
 
 
 
-class NoActionMove:
+
+class NoFallDamage:
     def __init__(self, main: 'Hacks'):
         self.main = main
         self.mem = main.main.mem
         self.handle = self.mem.handle
-        self.actionMove = False
-        self.write_1 = self.mem.scanner.find_address("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B F1 0F 29 74 24 ? 48 8B 89 ? ? ? ? 0F 28 F3")
-        #self.preset_data = main.main.mem.mem.data.setdefault('NoActionMove', {})
-        self.actionNoMoveAdress = self.mem.scanner.find_address("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B F1 0F 29 74 24 ? 48 8B 89 ? ? ? ? 0F 28 F3")
-        self.actionNoMoveRaw=self.mem.scanner.get_original_text(self.actionNoMoveAdress, 1)[0]
-        self.original_value = ny_mem.read_ubyte(self.handle, self.write_1)  
-        main.main.command.on_command['SirenPVPNoActionMove'].append(self.cmd_NAM) 
-        #if 'enabled' in self.preset_data:
-        #    self.is_enabled = self.preset_data['enabled']
-        #else:
-        #    self.preset_data['enabled'] = self.is_enabled
-       # #
-
-        #self.main.logger.debug(f'NoActionMove/write_1: {self.write_1:X}')
+        shell, script_file = make_shell()
 
 
-    def cmd_NAM(self, _, args):
+        self.p_cfg = self.mem.inject_handle.run(shell, {
+            'on_send_flag': self.mem.scanner_v2.find_val("e8 * * * * 48 ? ? c6 05 ? ? ? ? ? 48")[0],
+            'on_send_normal_move': self.mem.scanner_v2.find_val("48 ? ? 45 ? ? 44 ? ? 41 ? ? ? e8 * * * *")[0],
+            'on_send_combat_move': self.mem.scanner_v2.find_val("45 ? ? 44 ? ? 48 ? ? 41 ? ? ? e8 * * * * eb")[0],
+        }, filename=script_file)
+
+        self.data = self.main.data.setdefault('move', {})
+        self.cfg = dict2struct(self.data.get('hook', {
+            'speed_percent': 1,
+        }), MoveHookConfig)
+
+    @property
+    def cfg(self):
+        return ny_mem.read_memory(self.handle, MoveHookConfig, self.p_cfg)
+
+    @cfg.setter
+    def cfg(self, value: MoveHookConfig):
+        ny_mem.write_memory(self.handle, self.p_cfg, value)
+
+    def draw_panel(self):
+        cfg = self.cfg
+        any_data_change = False
+        any_hook_change = False
+
+
+        change, new_val = imgui.checkbox('无视掉落伤害', cfg.no_fall_damage)
+        if change:
+            cfg.no_fall_damage = new_val
+            any_hook_change = True
+
+
+
+        y_adjust = cfg.y_adjust
+        change, new_val = imgui.slider_float('y_adjust', cfg.y_adjust, -20, 20, '%.2f')
+        if change:
+            cfg.y_adjust = new_val
+            any_hook_change = True
+            
+        if any_hook_change:
+            self.cfg = cfg
+            self.data['hook'] = struct2dict(cfg)
+            any_data_change = True
+        if any_data_change:
+            self.main.storage.save()
+
+
+class MovePermission:
+    def __init__(self, main: 'Hacks'):
+        self.main = main
+        self.mem = main.main.mem
+        self.handle = self.mem.handle
+        self.p_code, =self.mem.scanner_v2.find_val("e8 * * * * 84 ? 74 ? 48 c7 05")
+        self.inject = ShellInject(self.p_code,)
+        self.update_inject()
+        self.state = False
+
+    def update_inject(self):
+        self.inject.disable()
+        code = ''
+        for p_id in range(96, 100):
+            code += f'cmp edx, {p_id};je ret1;'
+        code += 'jmp orig;ret1:mov al, 1;ret;orig:{taken};jmp {return_at:#X};'
+        self.inject.shell_code = code
+        self.inject.compile()
+
+    def draw_panel(self):
+        imgui.text("强制位移,会飞尸")
+        changed, new_val = imgui.checkbox("强制位移", self.inject.state)
+        if changed: self.inject.state = new_val
+        return changed, new_val
+    
+
+class MoveStatus:
+    def __init__(self, main: 'Hacks'):
+        data  = {
+            3023: False,
+            3024: False,
+        }
+        self.main = main
+        self.mem = main.main.mem
+        self.inject = ShellInject(self.mem.scanner_v2.find_address("0f 84 ? ? ? ? 42 ? ? ? ? ? 45") + 12)
+        self.data = {int(k): v for k, v in data.items()}
+        self.update_inject()
+        self.to_add_id = 0
+
+    def update_inject(self):
+        self.inject.disable()
+        to_check = [k for k, v in self.data.items() if v]
+        if not to_check: return
+        code = ''
+        for status_id in to_check:
+            code += f'cmp ecx, {status_id};je clearEcx;'
+        code += 'jmp orig;clearEcx:xor ecx, ecx;orig:{taken};jmp {return_at:#X};'
+        self.inject.shell_code = code
+        self.inject.compile()
+        self.inject.enable()
+
+    def draw_panel(self):
+        any_change = False
+        with imgui_ctx.ImguiId("MoveStatus"):
+            for status_id, v in list(self.data.items()):
+                changed, new_val = imgui.checkbox(f"##enable_{status_id}", v)
+                if changed:
+                    self.data[status_id] = new_val
+                    any_change = True
+                imgui.same_line()
+                try:
+                    imgui.text(f"{sq_pack.sheets.status_sheet[status_id][0]}#{status_id}")
+                except KeyError:
+                    imgui.text(f"Status#{status_id}")
+                imgui.same_line()
+                if imgui.button(f"X##remove_{status_id}"):
+                    self.data.pop(status_id)
+                    any_change = True
+            _, self.to_add_id = imgui.input_int("##add_id", self.to_add_id)
+            if self.to_add_id and self.to_add_id not in self.data:
+                try:
+                    btn_text = f"add {sq_pack.sheets.status_sheet[self.to_add_id][0]}"
+                except KeyError:
+                    pass
+                else:
+                    if imgui.button(btn_text):
+                        self.data[self.to_add_id] = True
+                        any_change = True
+        if any_change:
+            self.update_inject()
+        return any_change, self.data    
+    
+
+shell_uninstall_mini = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+class MiniHackUI:
+    shell='''
+from nylib.hook import create_hook
+from ctypes import c_int64, c_float, c_ubyte, c_uint,c_void_p,addressof
+def create_knock_hook():
+    if hasattr(inject_server, key):
+        return addressof(getattr(getattr(inject_server, key), 'val'))
+    val = c_float(0)
+    def knock_hook(hook, actor_ptr, angle, dis, knock_time, a5, a6):
+        print(f"get_hooked_message {str(actor_ptr)} ")
+        return hook.original(actor_ptr, 0, 0, 0, a5, a6)
+    hook = create_hook(actorKnockAdress, c_int64, [c_int64, c_float, c_float, c_int64, c_ubyte, c_uint])(knock_hook).install_and_enable()
+    setattr(hook, 'val', val)
+    setattr(inject_server, key, hook)
+    return addressof(val)
+res=create_knock_hook()
+'''
+    shell_uninstall = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+    shell_uninstall_multi = '''
+def uninstall_multi(key):
+    if hasattr(inject_server, key):
+        for hook in getattr(inject_server, key):
+            hook.uninstall()
+        delattr(inject_server, key)
+'''
+    def __init__(self, main: 'Hacks'):
+        self.show_imgui_window = True
+        self.main = main
+        self.mem = main.main.mem
+        self.handle = self.mem.handle
+        
+        self.antiKnock=False
+        self.actorKnockAdress = self.mem.scanner.find_address("48 8B C4 48 89 70 ? 57 48 81 EC ? ? ? ? 0F 29 70 ? 0F 28 C1")
+        self.actorKnockKey='__hacks_hook__actorKnock__'
+        main.main.command.on_command['SirenPVPAKA'].append(self.cmd_AFK) 
+        
+    def cmd_AFK(self, _, args):
         if len(args) < 1: return
         if args[0] == "On":
-            ny_mem.write_ubyte(self.handle, self.write_1, 0xc3)
-            self.actionMove = True                            
+            self.actorKnockHook=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey}\'\nactorKnockAdress = {self.actorKnockAdress}\n' + self.shell)
+            self.antiKnock = True                            
         if args[0] == "Off":
-            ny_mem.write_ubyte(self.handle, self.write_1, self.actionNoMoveRaw)
-            self.actionMove = False       
+            self.mem.inject_handle.run(f'key =\'{self.actorKnockKey}\'\n' + shell_uninstall_mini) 
+            self.antiKnock = False
+
 
     def draw_panel(self):
 
-            
-            
-        if imgui.button('无视突进') :
-            if not self.actionMove:
-                ny_mem.write_ubyte(self.handle, self.write_1, 0xc3)
-                #self.actorKnockHook=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey}\'\nactorKnockAdress = {self.actorKnockAdress}\n' + self.shell)
+
+        if imgui.button('防击退') :
+            if not self.antiKnock:
+                self.actorKnockHook=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey}\'\nactorKnockAdress = {self.actorKnockAdress}\n' + self.shell)
             else:
-                ny_mem.write_ubyte(self.handle, self.write_1, self.actionNoMoveRaw)
-                #self.mem.inject_handle.run(f'key =\'{self.actorKnockKey}\'\n' + shell_uninstall)   
-            self.actionMove=not self.actionMove
+                self.mem.inject_handle.run(f'key =\'{self.actorKnockKey}\'\n' + shell_uninstall_mini)   
+            self.antiKnock=not self.antiKnock
         imgui.same_line()
-        imgui.text(f'无视突进状态：{"开启" if self.actionMove else "关闭"}') 
+        imgui.text(f'防击退状态：{"开启" if self.antiKnock else "关闭"}')  
+
+
+tp_true = False
+positions = []  
+mapname = ""  
+maps = []
+clicked_coordinate = None
+from pynput import keyboard
+class MiniHackTP:
+
+
+    
+
+
+            
+    shell='''
+from nylib.hook import create_hook
+from ctypes import c_int64, c_float, c_ubyte, c_uint,c_void_p,addressof
+def create_knock_hook():
+    if hasattr(inject_server, key):
+        return addressof(getattr(getattr(inject_server, key), 'val'))
+    val = c_float(0)
+    def knock_hook(hook, actor_ptr, angle, dis, knock_time, a5, a6):
+        print(f"get_hooked_message {str(actor_ptr)} ")
+        return hook.original(actor_ptr, 0, 0, 0, a5, a6)
+    hook = create_hook(actorKnockAdress, c_int64, [c_int64, c_float, c_float, c_int64, c_ubyte, c_uint])(knock_hook).install_and_enable()
+    setattr(hook, 'val', val)
+    setattr(inject_server, key, hook)
+    return addressof(val)
+res=create_knock_hook()
+'''
+    shell_uninstall = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+    shell_uninstall_multi = '''
+def uninstall_multi(key):
+    if hasattr(inject_server, key):
+        for hook in getattr(inject_server, key):
+            hook.uninstall()
+        delattr(inject_server, key)
+'''
+
+    def __init__(self, main):
+        #super().__init__(main)
+        #self.print_name = self.data.setdefault('print_name', True)
+        self.show_imgui_window = True
+        self.main= main
+        self.mem = main.main.mem  #combat.mem
+        self.me= self.main.mem.mem.actor_table.me
+        self.tpvalue = 1
+        
+        
+        self.collapsed_states = {}
+        self.keyboardListener=keyboard.Listener(on_press=self.on_press,on_release=self.on_release)
+        self.keyboardListener.start()
+        main.main.command.on_command['SirenPVPTP'].append(self.cmd_tp)         
+        main.main.command.on_command['SirenPVPTPMo'].append(self.cmd_tp2)
+        self.tp=False
+        self.tpkey=False
+        self.x=0
+        self.y=0
+        self.z=0
+       
+        
+    def cmd_tp(self, _, args):
+        if len(args) < 1: return
+        coordinates = args[0]  
+        coordinate_list = coordinates.split(",")  # 使用逗号分割字符串
+        if len(coordinate_list) != 3:
+            print("输入格式错误，请使用 '111,111,111' 的格式输入坐标。")
+            return
+
+        try:
+            x = float(coordinate_list[0])
+            z = float(coordinate_list[1])
+            y = float(coordinate_list[2])
+        except ValueError:
+            print("输入格式错误，请使用数字表示坐标。")
+            return
+
+        ooPos = glm.vec3(x, z, y)  # 将坐标转换为浮点数，并传递给 glm.vec3 函数
+
+     
+        self.testPos(ooPos)
+    def cmd_tp2(self, _, args):
+        if len(args) < 1: return
+        if not (pos := self.mem.ray_cast.cursor_to_world()):
+            return self.logger.warning('cursor_to_world failed')
+        print(pos)     
+        self.testPos(pos)
+    def on_press(self,key):
+        if self.tpkey is True:
+            if key == keyboard.Key.left  :
+                self.moveX()
+            elif key == keyboard.Key.right :
+                self.moveY()
+            elif key == keyboard.Key.up    :
+                self.moveZ()
+            elif key == keyboard.Key.down  :
+                self.moveZ(-1)
+        else:
+            pass
+
+
+    def on_release(self,key):
+        pass
+
+
+
+    def draw_panel(self):
+        #if not self.show_imgui_window: return
+        
+                        
+        if imgui.button('tp开关') :
+            self.tp=not self.tp
+
+        imgui.same_line()
+        imgui.text(f'TP开关状态：{"开启" if self.tp else "关闭"}')    
+        if imgui.button('键盘监听开关') :
+            self.tpkey=not self.tpkey
+        imgui.same_line()
+        imgui.text(f'键盘监听状态：{"开启" if self.tpkey else "关闭"}')  
+        _, self.tpvalue = imgui.slider_float("设置TP距离", self.tpvalue, 1, 10, "%.0f")        
+        
+        
+        if imgui.button('X+1') :
+            self.moveX(self.tpvalue)
+        imgui.same_line()
+        if imgui.button('X-1') :
+            self.moveX(-self.tpvalue)
+        imgui.same_line()    
+        if imgui.button('Y+1') :
+            self.moveY(self.tpvalue)
+        imgui.same_line()
+        if imgui.button('Y-1') :
+            self.moveY(-self.tpvalue)
+        imgui.same_line()    
+        
+            
+        if imgui.button('Z+1') :
+            self.moveZ(self.tpvalue)
+        imgui.same_line()
+        if imgui.button('Z-1') :
+            self.moveZ(-self.tpvalue)
+        imgui.same_line()
+        if imgui.button('loadpos') :
+            self.openFile()
+        imgui.text(f'你自己最好知道你在干什么！') 
+        imgui.text(f'{self.me.pos}！') 
+        
+        
+    def moveX(self,value=1):
+        toPos=self.me.pos
+        toPos.x+=value
+        self.writePos(toPos)
+    def moveY(self,value=1):
+        toPos=self.me.pos
+        toPos.z+=value
+        self.writePos(toPos)
+    def moveZ(self,value=1):
+        toPos=self.me.pos
+        toPos.y+=value
+        self.writePos(toPos) 
+        
+        
+        
+    def addTeleportButton(self, coordinates):
+        if imgui.button("传送"):
+            ooPos = glm.vec3(coordinates)
+            self.testPos(ooPos)
+    def CommandTeleport(self, coordinates):
+        ooPos = glm.vec3(coordinates)
+        self.testPos(ooPos)
+    def CommandTeleport2(self, coordinates):
+        ooPos = coordinates
+        self.testPos(ooPos)        
+    def testPos(self, ooPos):
+        if self.tp:
+            ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
+
+            
+    def writePos(self,toPos:glm.vec3)  :    
+        if self.tp:    
+            ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, toPos.to_bytes())
+    def moveoo(self,value=1):
+        ooPos=glm.vec3(3.71959,-7,-1.17685 )  
+        self.testPos(ooPos)       
+    def movefly(self):
+        ooPos= me.pos + glm.vec3(0, 1, 0)
+        ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
+          
+      
+
+    
+    def getPos(self):
+        return bytes(ny_mem.read_bytes(self.me.handle, self.me.address + self.me.offsets.pos, 0xc))
+
+    def update(self, main):
+        meAdress=self.me.address + self.me.offsets.pos
