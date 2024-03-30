@@ -8,18 +8,13 @@ from ff_draw.gui.text import TextPosition
 from ff_draw.plugins import FFDrawPlugin
 import nylib.utils.win32.memory as ny_mem
 #from pynput import keyboard
-
-from .combat.anilock import AniLock
-from .combat.auto_qte import AutoQte
-from .combat.move_forbidden_clip import MoveForbiddenClip
-from .combat.no_action_move import NoActionMove
+from nylib.utils import imgui as ny_imgui
 
 
 from fpt4.utils.sqpack import SqPack
 from ff_draw.main import FFDraw
 import nylib.utils.imgui.ctx as imgui_ctx
 from .utils import ShellInject, struct2dict, dict2struct, Patch, Hack
-from .hook_shell import CombatHookConfig
 if typing.TYPE_CHECKING:
     from . import Hacks
 from ..Vars import vars
@@ -61,6 +56,107 @@ def uninstall(key):
         getattr(inject_server, key).uninstall()
         delattr(inject_server, key)
 '''
+class CurrentMinMax:
+    def __init__(self, handle, address):
+        self.handle = handle
+        self.address = address
+
+    current = property(
+        lambda self: ny_mem.read_float(self.handle, self.address),
+        lambda self, value: ny_mem.write_float(self.handle, self.address, value)
+    )
+
+    min = property(
+        lambda self: ny_mem.read_float(self.handle, self.address + 4),
+        lambda self, value: ny_mem.write_float(self.handle, self.address + 4, value)
+    )
+
+    max = property(
+        lambda self: ny_mem.read_float(self.handle, self.address + 8),
+        lambda self, value: ny_mem.write_float(self.handle, self.address + 8, value)
+    )
+
+
+class Cam:
+    def __init__(self, main: 'Hacks'):
+        self.main = main
+        mem = main.main.mem
+        self.handle = mem.handle
+        self._cam_base, = mem.scanner.find_point("48 8D 0D * * * * E8 ? ? ? ? 48 83 3D ? ? ? ? ? 74 ? E8 ? ? ? ?")
+        self._zoom_offset, = mem.scanner.find_val("F3 0F ? ? * * * * 48 8B ? ? ? ? ? 48 85 ? 74 ? F3 0F ? ? ? ? ? ? 48 83 C1")
+        self._fov_offset, = mem.scanner.find_val("F3 0F ? ? * * * * 0F 2F ? ? ? ? ? 72 ? F3 0F ? ? ? ? ? ? 48 8B")
+        self._angle_offset, = mem.scanner.find_val("F3 0F 10 B3 * * * * 48 8D ? ? ? F3 44 ? ? ? ? ? ? ? F3 44")
+        self.preset_data = main.data.setdefault('cam_preset', {})
+        if 'zoom' in self.preset_data:
+            self.cam_zoom.min, self.cam_zoom.max = self.preset_data['zoom']['min'], self.preset_data['zoom']['max']
+        else:
+            self.preset_data['zoom'] = {'min': self.cam_zoom.min, 'max': self.cam_zoom.max}
+
+        if 'fov' in self.preset_data:
+            self.cam_fov.min, self.cam_fov.max = self.preset_data['fov']['min'], self.preset_data['fov']['max']
+        else:
+            self.preset_data['fov'] = {'min': self.cam_fov.min, 'max': self.cam_fov.max}
+
+        if 'angle' in self.preset_data:
+            self.cam_angle.min, self.cam_angle.max = self.preset_data['angle']['min'], self.preset_data['angle']['max']
+        else:
+            self.preset_data['angle'] = {'min': self.cam_angle.min, 'max': self.cam_angle.max}
+
+        main.storage.save()
+        self.main.logger.debug(f'cam/cam_base: {self._cam_base:X}')
+        self.main.logger.debug(f'cam/zoom_offset: {self._zoom_offset:X}')
+        self.main.logger.debug(f'cam/fov_offset: {self._fov_offset:X}')
+        self.main.logger.debug(f'cam/angle_offset: {self._angle_offset:X}')
+
+    @property
+    def cam_zoom(self):
+        return CurrentMinMax(self.handle, ny_mem.read_address(self.handle, self._cam_base) + self._zoom_offset)
+
+    @property
+    def cam_fov(self):
+        return CurrentMinMax(self.handle, ny_mem.read_address(self.handle, self._cam_base) + self._fov_offset)
+
+    @property
+    def cam_angle(self):
+        return CurrentMinMax(self.handle, ny_mem.read_address(self.handle, self._cam_base) + self._angle_offset)
+
+    def draw_panel(self):
+        imgui.columns(4)
+        imgui.next_column()
+        imgui.text("Current")
+        imgui.next_column()
+        imgui.text("Min")
+        imgui.next_column()
+        imgui.text("Max")
+        imgui.next_column()
+        imgui.separator()
+
+        zoom = self.cam_zoom
+        imgui.text("Zoom")
+        imgui.next_column()
+        changed, new_zoom_current = imgui.drag_float("##zoom_current", zoom.current, 0.1, zoom.min, zoom.max, "%.1f")
+        if changed: zoom.current = new_zoom_current
+        imgui.next_column()
+        changed, new_zoom_min = imgui.input_float('##zoom_min', zoom.min, .5, 5, "%.1f")
+        if changed:
+            zoom.min = new_zoom_min
+            self.preset_data['zoom']['min'] = new_zoom_min
+            self.main.storage.save()
+        imgui.next_column()
+        changed, new_zoom_max = imgui.input_float('##zoom_max', zoom.max, .5, 5, "%.1f")
+        if changed:
+            zoom.max = new_zoom_max
+            self.preset_data['zoom']['max'] = new_zoom_max
+            self.main.storage.save()
+        imgui.next_column()
+
+
+        imgui.columns(1)
+
+
+
+        
+
 
 class NoActionMove:
     def __init__(self, combat: 'Hacks'):
@@ -417,4 +513,7 @@ res = install_get_action_range_hook()
             if imgui.button("40"):
                 self.val = 40.0               
             if changed: self.val = new_val
+
+
+
 
