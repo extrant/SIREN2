@@ -5,6 +5,7 @@ tab = "Panel"
 color_themes = ["Dark", "Light", "Classic"]
 color_theme_index = 2  # 初始索引指向第一个选项
 texture = None
+texture2 = None
 init_window_size_and_position = True
 
 #Hack
