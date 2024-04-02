@@ -21,6 +21,8 @@ is_mount = 0#坐骑id
 now_job = 0#当前职业
 
 actionrange = 0#长臂猿距离
+
+jindie = True
 ########################################
 
 
