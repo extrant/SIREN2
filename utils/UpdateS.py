@@ -4,7 +4,7 @@ import os
 import hashlib
 import shutil
 import requests
-
+from .. import Options
 def Update():
     # 获取GitHub上__init__.py文件的最新内容
     url = "https://api.github.com/repos/extrant/SIREN2/contents/version.txt"
@@ -27,7 +27,10 @@ def Update():
         update = input("是否更新到最新的代码? (y/n): \033[0m")
         if update.lower() == 'y':
             # 设置下载ZIP文件的URL
-            zip_url = "https://github.com/extrant/SIREN2/archive/refs/heads/main.zip"
+            if Options.auto_update_method == 1:
+                zip_url = "https://mirror.ghproxy.com/?q=https://github.com/extrant/SIREN2/archive/refs/heads/main.zip"
+            else:
+                zip_url = "https://github.com/extrant/SIREN2/archive/refs/heads/main.zip"
             # 设置ZIP文件的本地路径
             temp_zip_path = 'temp.zip'
             # 使用PowerShell下载ZIP文件
