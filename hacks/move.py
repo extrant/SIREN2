@@ -1,5 +1,7 @@
 import typing
 import imgui
+import json
+from pynput.keyboard import Controller, Key
 from ff_draw.gui.text import TextPosition
 from ff_draw.plugins import FFDrawPlugin
 import nylib.utils.win32.memory as ny_mem
@@ -13,6 +15,7 @@ if typing.TYPE_CHECKING:
     from . import Hacks
 from ..Vars import vars
 from nylib.utils.imgui import ctx as imgui_ctx
+from ff_draw.main import FFDraw
 
 sq_pack = SqPack.get()
 
@@ -477,22 +480,26 @@ def uninstall_multi(key):
         self.show_imgui_window = True
         self.main= main
         self.mem = main.main.mem  #combat.mem
-        self.me= self.main.mem.mem.actor_table.me
-        self.tpvalue = 1
-        
-        
+        self.me= self.main.mem.mem.actor_table.me        
+        self.territory = ''
         self.collapsed_states = {}
-        self.keyboardListener=keyboard.Listener(on_press=self.on_press,on_release=self.on_release)
-        self.keyboardListener.start()
         main.main.command.on_command['SirenPVPTP'].append(self.cmd_tp)         
         main.main.command.on_command['SirenPVPTPMo'].append(self.cmd_tp2)
         self.tp=False
-        self.tpkey=False
-        self.x=0
-        self.y=0
-        self.z=0
-       
-        
+        self.tid = -1
+        self.me_pos_temp = None
+        self.coordinates_data = {}
+        self.selected_map_id_index = 0  # Initialize with an integer
+        self.selected_coordinate_index = 0  # Initialize the coordinate index
+        self.wait_to_teleport = False
+        self.vfall = False
+        self.vfall_enable = False
+        self.keyboard = Controller()
+    def load_coordinates(self):
+        with open(r'.\\plugins\\SIREN2\\warp_list.json', 'r', encoding='utf-8') as file:
+            self.coordinates_data = json.load(file)
+
+
     def cmd_tp(self, _, args):
         if len(args) < 1: return
         coordinates = args[0]  
@@ -519,23 +526,6 @@ def uninstall_multi(key):
             return self.logger.warning('cursor_to_world failed')
         print(pos)     
         self.testPos(pos)
-    def on_press(self,key):
-        if self.tpkey is True:
-            if key == keyboard.Key.left  :
-                self.moveX()
-            elif key == keyboard.Key.right :
-                self.moveY()
-            elif key == keyboard.Key.up    :
-                self.moveZ()
-            elif key == keyboard.Key.down  :
-                self.moveZ(-1)
-        else:
-            pass
-
-
-    def on_release(self,key):
-        pass
-
 
 
     def draw_panel(self):
@@ -546,53 +536,92 @@ def uninstall_multi(key):
             self.tp=not self.tp
 
         imgui.same_line()
-        imgui.text(f'TP开关状态：{"开启" if self.tp else "关闭"}')    
-        if imgui.button('键盘监听开关') :
-            self.tpkey=not self.tpkey
-        imgui.same_line()
-        imgui.text(f'键盘监听状态：{"开启" if self.tpkey else "关闭"}')  
-        _, self.tpvalue = imgui.slider_float("设置TP距离", self.tpvalue, 1, 10, "%.0f")        
+        imgui.text(f'TP开关状态：{"开启" if self.tp else "关闭"}')      
         
+        imgui.same_line()
+        if imgui.button('Load Position'):
+            self.load_coordinates()
+        imgui.same_line()
+        if imgui.button('糖豆人'):
+            self.vfall_enable = not self.vfall_enable
+        tid = self.mem.territory_info.territory_id
+        imgui.text(str(tid))
+        if tid != self.tid:
+            self.tid = tid
+            try:
+                territory = self.mem.main.sq_pack.sheets.territory_type_sheet[tid]
+            except KeyError:
+                territory = 'N/A'
+            else:
+                self.territory = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'   
+        imgui.same_line()
+        imgui.text(str(self.territory))
+        if self.coordinates_data:
+            #map_ids = list(self.coordinates_data.keys())
+            map_ids = list(self.coordinates_data.keys())
+            # 构建包含地图 ID 和地理区域信息的列表
+            map_id_with_territory = []
+            for map_id in map_ids:
+                try:
+                    territory = self.mem.main.sq_pack.sheets.territory_type_sheet[int(map_id)]
+                    territory_description = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'
+                except KeyError:
+                    territory_description = 'N/A'
+                map_id_with_territory.append(f"{map_id} - {territory_description}")            
+            #clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_ids)
+            clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_id_with_territory)
+            if clicked:
+                self.selected_map_id_index = selected_map_id_index
+
+            if self.selected_map_id_index is not None:
+                selected_map_id = map_ids[self.selected_map_id_index]
+                coordinates = self.coordinates_data[selected_map_id]
+                coordinate_items = [f"{coord['coordinates']} - {coord['note']}" for coord in coordinates]
+                clicked, selected_coordinate_index = imgui.combo("选择TP节点", self.selected_coordinate_index, coordinate_items)
+                
+                if clicked:
+                    self.selected_coordinate_index = selected_coordinate_index
+
+                if imgui.button("跨界传送"):
+                    self.me_pos_temp = self.me.pos
+                    self.wait_to_teleport = True
+                    self.mem.do_text_command(f'/#SirenPVPSpeed 0')
+                    self.mem.do_text_command(f'/e 移速已为0 <se.11><se.11><se.11><se.11>')
+                    coord = coordinates[self.selected_coordinate_index]['coordinates']
+                    self.mem.do_text_command(f'/e 你的TP位置{coord}')
+                    self.mem.do_text_command(f'/e 跨界传送TP移速被锁为0后请进行对应地图区域传送。') 
+                    self.mem.do_text_command(f'/e 只要是会被服务器移动的都可以使用这个TP(死亡复活)') 
+
+                if self.wait_to_teleport is True:
+                    imgui.same_line()
+                    if imgui.button("取消"):
+                        self.me_pos_temp = self.me.pos
+                        self.wait_to_teleport = False  
+                        self.mem.do_text_command(f'/#SirenPVPSpeed 1')                
+
+                    #self.teleport_to_coordinate(coord)
+                    #print(coord)
+                    if self.me.pos != self.me_pos_temp:
+                        imgui.text(f'准备传送')
+                        imgui.same_line()
+                        imgui.text(f'{selected_map_id}==>{self.tid}')
+                        coord = coordinates[self.selected_coordinate_index]['coordinates']
+                        if str(selected_map_id) != str(self.tid):
+                            self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
+                            self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                            self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
+                        else:
+                            self.teleport_to_coordinate(coord)
+                        #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                        #self.mem.do_text_command(f'/e 移速恢复')                        
+                        self.wait_to_teleport = False
         
-        if imgui.button('X+1') :
-            self.moveX(self.tpvalue)
-        imgui.same_line()
-        if imgui.button('X-1') :
-            self.moveX(-self.tpvalue)
-        imgui.same_line()    
-        if imgui.button('Y+1') :
-            self.moveY(self.tpvalue)
-        imgui.same_line()
-        if imgui.button('Y-1') :
-            self.moveY(-self.tpvalue)
-        imgui.same_line()    
-        
-            
-        if imgui.button('Z+1') :
-            self.moveZ(self.tpvalue)
-        imgui.same_line()
-        if imgui.button('Z-1') :
-            self.moveZ(-self.tpvalue)
-        imgui.same_line()
-        if imgui.button('loadpos') :
-            self.openFile()
         imgui.text(f'你自己最好知道你在干什么！') 
-        imgui.text(f'{self.me.pos}！') 
-        
-        
-    def moveX(self,value=1):
-        toPos=self.me.pos
-        toPos.x+=value
-        self.writePos(toPos)
-    def moveY(self,value=1):
-        toPos=self.me.pos
-        toPos.z+=value
-        self.writePos(toPos)
-    def moveZ(self,value=1):
-        toPos=self.me.pos
-        toPos.y+=value
-        self.writePos(toPos) 
-        
+        if self.me is not None:
+            for status_id, param, remain, source_id in self.me.status:
+                if status_id == 3704:
+                    imgui.text(str(param))
+            imgui.text(f'{self.me.pos}！') 
         
         
     def addTeleportButton(self, coordinates):
@@ -606,6 +635,9 @@ def uninstall_multi(key):
         ooPos = coordinates
         self.testPos(ooPos)        
     def testPos(self, ooPos):
+        #if self.vfall_enable is True:
+        #self.keyboard.press(Key.space)
+        #self.keyboard.release(Key.space)        
         if self.tp:
             ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
 
@@ -621,7 +653,13 @@ def uninstall_multi(key):
         ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
           
       
-
+    def teleport_to_coordinate(self, coordinates):
+        self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+        self.mem.do_text_command(f'/e TP成功，移速已恢复 <se.4><se.4><se.4><se.4>')
+        self.wait_to_teleport = False
+        x, y, z = map(float, coordinates.split(','))
+        pos = glm.vec3(x, y, z)
+        self.testPos(pos)
     
     def getPos(self):
         return bytes(ny_mem.read_bytes(self.me.handle, self.me.address + self.me.offsets.pos, 0xc))
