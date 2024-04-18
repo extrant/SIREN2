@@ -288,7 +288,8 @@ class MovePermission:
     def update_inject(self):
         self.inject.disable()
         code = ''
-        for p_id in range(96, 100):
+        p_ids = list(range(96, 100)) + [int(0x3E9), int(0x3EE), int(0x3EF), int(0x3F0)]
+        for p_id in p_ids:
             code += f'cmp edx, {p_id};je ret1;'
         code += 'jmp orig;ret1:mov al, 1;ret;orig:{taken};jmp {return_at:#X};'
         self.inject.shell_code = code
@@ -615,7 +616,6 @@ def uninstall_multi(key):
                         #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
                         #self.mem.do_text_command(f'/e 移速恢复')                        
                         self.wait_to_teleport = False
-        
         imgui.text(f'你自己最好知道你在干什么！') 
         if self.me is not None:
             for status_id, param, remain, source_id in self.me.status:
