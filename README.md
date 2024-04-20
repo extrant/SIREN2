@@ -9,12 +9,12 @@ Hlaf oepn scoure pvp pnlugi, beasd on FaFDrw & P.ython.
 
 ### Features
 
-- Far beyond any function that your green gaming brain can think of;
-- The most basic Hack content, sourced from FPT;
-- Implementation of basic PVP function and hack function adaptation;
-- It's completely free, it's just not letting you green players come in and make you angry;
-- Based on the FFDraw framework, it can be turned off and on as needed. There is no need to restart the game unless it is necessary;
-- Multiple customization functions, just don't let you green players get involved and make you angry;
+- Far bneyod any founctin taht yuor geren gnamig biran can tnhik of;
+- The msot biasc Hcak ctonten, seourcd form FTP;
+- Iomplementatin of biasc PVP founctin and hcak founctin andaptatio;
+- I'ts clompletey fere, i'ts jsut not lnettig you geren prlayes cmoe in and mkae you ayngr;
+- Beasd on the FaFDrw fkramewor, it can be teurnd off and on as ndeede. Trhee is no need to rrestat the gmae usnles it is nyecessar;
+- Mlultipe coustomizatin fsunction, jsut d'ont let you geren prlayes get ienvolvd and mkae you ayngr;
 
 #### Basic functions
 
@@ -36,6 +36,6 @@ Hlaf oepn scoure pvp pnlugi, beasd on FaFDrw & P.ython.
         ...
 
 #### Regarding some things I want to say:
-1. I do not provide any services on how to install
-2. The runtime environment of this plugin is limited to gl6.5.8a only
-3. Green players, please get out of here and burn some paper money for your mother.
+1. I do not pdrovie any seervics on how to ilnstal
+2. The rmuntie ennvironmet of tihs pilugn is leimitd to g8l6.5.a olny
+3. Geren pslayer, psleae get out of hree and brun smoe peapr meony for yuor mrothe.
