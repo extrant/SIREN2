@@ -157,6 +157,71 @@ class Cam:
 
         
 
+class GrandCompany:
+    shell='''
+import ctypes
+from nylib.hook import create_hook
+from ctypes import c_int64, c_float, c_ubyte, c_uint,c_void_p,addressof
+def create_knock_hook():
+    if hasattr(inject_server, key):
+        return addressof(getattr(getattr(inject_server, key), 'val'))
+    val = c_int64(0)
+    def knock_hook(hook, a1):
+        #print(f"get_hooked_message {str(a1)} ")
+        return 17#hook.original(a1)
+    hook = create_hook(actorLBAdress1, ctypes.c_uint64, [ctypes.c_int64])(knock_hook).install_and_enable()
+    setattr(hook, 'val', val)
+    setattr(inject_server, key, hook)
+    return addressof(val)
+res=create_knock_hook()
+'''
+
+    shell_uninstall = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+
+    shell_uninstall_mini = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+    def __init__(self, main: 'Hacks'):
+        self.show_imgui_window = True
+        self.main=main
+        self.mem = main.main.mem       
+        self.LBKnock=False
+        self.actorLBAdress1 = self.mem.scanner.find_address("0F B6 81 ?? ?? ?? ?? FF C8 83 F8 ?? 73")
+        self.actorKnockKey1='__hacks_hook__GrandCompany__'
+        #main.main.command.on_command['SirenPVPAIA'].append(self.cmd_AFK) 
+        
+    def cmd_AFK(self, _, args):
+        if len(args) < 1: return
+        if args[0] == "On":
+            self.actorKnockHook1=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey1}\'\nactorLBAdress1 = {self.actorLBAdress1}\n' + self.shell)
+            self.LBKnock = True                            
+        if args[0] == "Off":
+            self.mem.inject_handle.run(f'key =\'{self.actorKnockKey1}\'\n' + self.shell_uninstall_mini) 
+            self.LBKnock = False
+
+
+    def draw_panel(self):
+
+
+        if imgui.button('强制交军票') :
+            if not self.LBKnock:
+                self.actorKnockHook1=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey1}\'\nactorLBAdress1 = {self.actorLBAdress1}\n' + self.shell)
+            else:
+                self.mem.inject_handle.run(f'key =\'{self.actorKnockKey1}\'\n' + self.shell_uninstall_mini)   
+            self.LBKnock=not self.LBKnock
+        imgui.same_line()
+        imgui.text(f'强制交军票：{"开启" if self.LBKnock else "关闭"}') 
+
 
 class NoActionMove:
     def __init__(self, combat: 'Hacks'):
