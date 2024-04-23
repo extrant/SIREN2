@@ -74,3 +74,11 @@ a29537_high = 0
 a29537_pos = None
 smn_fire = False
 smn_textdis = "初始化状态"
+
+
+#学者变量
+########################################
+sch_enemy = 0
+sch_enemy_a = 0
+sch_enemy_b = 0
+select_most_du_value = 0
