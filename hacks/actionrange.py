@@ -200,27 +200,46 @@ uninstall(key)
         self.actorKnockKey1='__hacks_hook__GrandCompany__'
         #main.main.command.on_command['SirenPVPAIA'].append(self.cmd_AFK) 
         
-    def cmd_AFK(self, _, args):
-        if len(args) < 1: return
-        if args[0] == "On":
-            self.actorKnockHook1=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey1}\'\nactorLBAdress1 = {self.actorLBAdress1}\n' + self.shell)
-            self.LBKnock = True                            
-        if args[0] == "Off":
-            self.mem.inject_handle.run(f'key =\'{self.actorKnockKey1}\'\n' + self.shell_uninstall_mini) 
-            self.LBKnock = False
-
-
     def draw_panel(self):
 
 
-        if imgui.button('强制交军票') :
+        if imgui.button('无视军衔交军票') :
             if not self.LBKnock:
                 self.actorKnockHook1=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey1}\'\nactorLBAdress1 = {self.actorLBAdress1}\n' + self.shell)
             else:
                 self.mem.inject_handle.run(f'key =\'{self.actorKnockKey1}\'\n' + self.shell_uninstall_mini)   
             self.LBKnock=not self.LBKnock
         imgui.same_line()
-        imgui.text(f'强制交军票：{"开启" if self.LBKnock else "关闭"}') 
+        imgui.text(f'无视军衔交军票：{"开启" if self.LBKnock else "关闭"}') 
+
+
+class ShopQuantity:
+    def __init__(self, combat: 'Hacks'):
+        mem = combat.main.mem
+        self.handle = mem.handle
+        self.p_code = mem.scanner_v2.find_address("41 ?? 63 00 00 00 41 ?? ?? 44 ?? ?? ?? 41") + 0x2
+        self.raw = ny_mem.read_uint(self.handle, self.p_code)
+        self._state = False  # Internal state to manage the checkbox status
+
+    @property
+    def state(self):
+        current_value = ny_mem.read_uint(self.handle, self.p_code)
+        return current_value == 999
+
+    @state.setter
+    def state(self, value):
+        new_value = 999 if value else 99
+        ny_mem.write_uint(self.handle, self.p_code, new_value)
+        self._state = value 
+
+    def draw_panel(self):
+        imgui.text(f'当前购买最高{self.raw}')
+        changed, new_val = imgui.checkbox("去除购买限制", self.state)
+        if changed:
+
+            self.state = new_val
+            self.raw = ny_mem.read_uint(self.handle, self.p_code)
+        return changed, new_val
 
 
 class NoActionMove:
