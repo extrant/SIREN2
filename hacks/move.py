@@ -16,7 +16,7 @@ if typing.TYPE_CHECKING:
 from ..Vars import vars
 from nylib.utils.imgui import ctx as imgui_ctx
 from ff_draw.main import FFDraw
-
+import os
 sq_pack = SqPack.get()
 
 
@@ -171,13 +171,6 @@ def uninstall(key):
         getattr(inject_server, key).uninstall()
         delattr(inject_server, key)
 uninstall(key)
-'''
-    shell_uninstall_multi = '''
-def uninstall_multi(key):
-    if hasattr(inject_server, key):
-        for hook in getattr(inject_server, key):
-            hook.uninstall()
-        delattr(inject_server, key)
 '''
 
     shell_uninstall_mini = '''
@@ -375,7 +368,7 @@ def create_knock_hook():
         return addressof(getattr(getattr(inject_server, key), 'val'))
     val = c_float(0)
     def knock_hook(hook, actor_ptr, angle, dis, knock_time, a5, a6):
-        print(f"get_hooked_message {str(actor_ptr)} ")
+        #print(f"get_hooked_message {str(actor_ptr)} ")
         return hook.original(actor_ptr, 0, 0, 0, a5, a6)
     hook = create_hook(actorKnockAdress, c_int64, [c_int64, c_float, c_float, c_int64, c_ubyte, c_uint])(knock_hook).install_and_enable()
     setattr(hook, 'val', val)
@@ -452,7 +445,7 @@ def create_knock_hook():
         return addressof(getattr(getattr(inject_server, key), 'val'))
     val = c_float(0)
     def knock_hook(hook, actor_ptr, angle, dis, knock_time, a5, a6):
-        print(f"get_hooked_message {str(actor_ptr)} ")
+        #print(f"get_hooked_message {str(actor_ptr)} ")
         return hook.original(actor_ptr, 0, 0, 0, a5, a6)
     hook = create_hook(actorKnockAdress, c_int64, [c_int64, c_float, c_float, c_int64, c_ubyte, c_uint])(knock_hook).install_and_enable()
     setattr(hook, 'val', val)
@@ -495,11 +488,58 @@ def uninstall_multi(key):
         self.wait_to_teleport = False
         self.vfall = False
         self.vfall_enable = False
-        self.keyboard = Controller()
+        self.temp_note = ""
+        file_path = r'.\\plugins\\SIREN2\\warp_list.json'
+        
+        # 检查文件是否存在，如果不存在，则初始化坐标数据为一个空字典
+        if not os.path.exists(file_path):
+            self.coordinates_data = {}   
+            with open(file_path, 'w', encoding='utf-8') as file:
+                json.dump(self.coordinates_data, file, indent=2)                 
     def load_coordinates(self):
         with open(r'.\\plugins\\SIREN2\\warp_list.json', 'r', encoding='utf-8') as file:
             self.coordinates_data = json.load(file)
 
+    def delete_coordinate(self, map_id, coordinate_index):
+        """从 JSON 数据中删除指定的坐标条目"""
+        if map_id in self.coordinates_data and 0 <= coordinate_index < len(self.coordinates_data[map_id]):
+            # 删除指定索引的坐标
+            del self.coordinates_data[map_id][coordinate_index]
+            # 如果此地图ID下没有更多坐标，可选择删除整个键
+            if not self.coordinates_data[map_id]:
+                del self.coordinates_data[map_id]
+            # 保存更新后的数据
+            file_path = r'.\\plugins\\SIREN2\\warp_list.json'
+            with open(file_path, 'w', encoding='utf-8') as file:
+                json.dump(self.coordinates_data, file, indent=2)
+            print(f"坐标已从地图 {map_id} 删除")
+        else:
+            print("未找到指定的地图 ID 或坐标索引超出范围")
+
+    def save_coordinates(self, map_id, coordinates, note):
+        
+        """向现有 JSON 数据中追加新的坐标和注释，并保存。如果文件不存在，则创建一个新文件。"""
+        # 定义文件路径
+        file_path = r'.\\plugins\\SIREN2\\warp_list.json'
+        if not os.path.exists(file_path):
+            self.coordinates_data = {}
+            with open(file_path, 'w', encoding='utf-8') as file:
+                json.dump(self.coordinates_data, file, indent=2)
+        else:
+            # 如果文件存在，从文件加载坐标数据
+            self.load_coordinates()
+        
+        # 如果 map_id 存在，则追加数据；如果不存在，则创建新项
+        if map_id in self.coordinates_data:
+            self.coordinates_data[map_id].append({"coordinates": coordinates, "note": note})
+        else:
+            self.coordinates_data[map_id] = [{"coordinates": coordinates, "note": note}]
+
+        # 将更新后的数据写回 JSON 文件
+        with open(file_path, 'w', encoding='utf-8') as file:
+            json.dump(self.coordinates_data, file, indent=2)
+
+        print(f"已保存新坐标到地图 {map_id}: {coordinates}, {note}")
 
     def cmd_tp(self, _, args):
         if len(args) < 1: return
@@ -616,6 +656,21 @@ def uninstall_multi(key):
                         #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
                         #self.mem.do_text_command(f'/e 移速恢复')                        
                         self.wait_to_teleport = False
+                imgui.same_line()
+        if imgui.button("保存新坐标"):
+            self.save_coordinates(str(tid), f"{self.me.pos.x:.3f},{self.me.pos.y:.3f},{self.me.pos.z:.3f}", self.temp_note) 
+        imgui.same_line()
+        if imgui.button("删除选中坐标"):
+            if self.selected_map_id_index is not None and self.selected_coordinate_index is not None:
+                selected_map_id = list(self.coordinates_data.keys())[self.selected_map_id_index]
+                self.delete_coordinate(selected_map_id, self.selected_coordinate_index)
+                imgui.same_line()
+                imgui.text("选中坐标已删除！")
+                # 删除坐标后重置选中的坐标索引
+                self.selected_coordinate_index = 0
+                self.load_coordinates()  # 重新加载坐标数据更新 GUI                    
+        imgui.text("添加新坐标:")
+        _, self.temp_note = imgui.input_text("注释:", str(self.temp_note), 100)   
         imgui.text(f'你自己最好知道你在干什么！') 
         if self.me is not None:
             for status_id, param, remain, source_id in self.me.status:

@@ -218,7 +218,17 @@ class ShopQuantity:
         mem = combat.main.mem
         self.handle = mem.handle
         self.p_code = mem.scanner_v2.find_address("41 ?? 63 00 00 00 41 ?? ?? 44 ?? ?? ?? 41") + 0x2
+        self.p_code1 = int("7FF7F15626FC",16)
+        self.p_code2 = int("7FF7F1562700",16)
+        self.p_code3 = int("7FF7F1562704",16)
+        self.p_code4 = int("7FF7F1562708",16)
+        #print(self.p_code)
         self.raw = ny_mem.read_uint(self.handle, self.p_code)
+        self.raw1 = 0#ny_mem.read_uint(self.handle, int("7FF7F15626FC",16))
+        self.raw2 = 0#ny_mem.read_uint(self.handle, int("7FF7F1562700",16))
+        self.raw3 = 0#ny_mem.read_uint(self.handle, int("7FF7F1562704",16))
+        self.raw4 = 0#ny_mem.read_uint(self.handle, int("7FF7F1562708",16))
+
         self._state = False  # Internal state to manage the checkbox status
 
     @property
@@ -241,7 +251,18 @@ class ShopQuantity:
             self.raw = ny_mem.read_uint(self.handle, self.p_code)
         return changed, new_val
 
-
+    def draw_2(self):
+        imgui.text("FAKE CN6.51 ONLY")
+        _, self.raw1 = imgui.input_text("参战次数:", str(self.raw1), 100)   
+        _, self.raw2 = imgui.input_text("冠军次数:", str(self.raw2), 100)   
+        _, self.raw3 = imgui.input_text("亚军次数:", str(self.raw3), 100) 
+        _, self.raw4 = imgui.input_text("季军次数:", str(self.raw4), 100) 
+        if imgui.button("确定"):
+            ny_mem.write_uint(self.handle, self.p_code1, int(self.raw1))
+            ny_mem.write_uint(self.handle, self.p_code2, int(self.raw2))
+            ny_mem.write_uint(self.handle, self.p_code3, int(self.raw3))
+            ny_mem.write_uint(self.handle, self.p_code4, int(self.raw4))
+    
 class NoActionMove:
     def __init__(self, combat: 'Hacks'):
         mem = combat.main.mem
