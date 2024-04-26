@@ -66,10 +66,11 @@ def select_du_kuosan_enemy(m: CombatMem, select_status_id: int) -> Optional[Acto
             if status_id == select_status_id and source_id == me.id:  
                 has_select_status = True
         return has_select_status 
-
+    
+    actor_temp = m.mem.actor_table.iter_actor_by_type(1)
     k = lambda a: glm.distance(me_pos, a.pos) 
-    t = [actor for actor in m.mem.actor_table.iter_actor_by_type(1) if target_validator(actor)  and k(actor) <= 30]
-    t2 = [actor for actor in m.mem.actor_table.iter_actor_by_type(1)]
+    t = [actor for actor in actor_temp if target_validator(actor)  and k(actor) <= 30]
+    t2 = [actor for actor in actor_temp]
 
     if not t: return None
     actor_counts = {}
@@ -103,9 +104,10 @@ def select_du_kuosan_enemy_double(m: CombatMem, select_status_id: int) -> Option
                 has_select_status = True
         return has_select_status
 
+    actor_temp = m.mem.actor_table.iter_actor_by_type(1)
     k = lambda a: glm.distance(me_pos, a.pos)
-    t = [actor for actor in m.mem.actor_table.iter_actor_by_type(1) if target_validator(actor)  and k(actor) <= 30]
-    t2 = [actor for actor in m.mem.actor_table.iter_actor_by_type(1)]
+    t = [actor for actor in actor_temp if target_validator(actor)  and k(actor) <= 30]
+    t2 = [actor for actor in actor_temp]
 
     if not t:return None
     actor_counts = {}
@@ -142,17 +144,13 @@ def sch_test(m, is_pvp=True):
     if du_remain == 0 and kuosan_remain < 15:
         if target_enemy:
             if me.status.has_status(status_id=3094) and du_remain == 0 and kuosan_remain < 15:
-
                 m.targets.current = target_enemy
                 m.action_state.use_action(29233, target_enemy.id)
-                #m.action_state.use_action(29234, target_enemy.id)
+
             if not me.status.has_status(status_id=3094) and du_remain < 5:
-                if jipao_remain == 0 and not m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one:
-                    m.action_state.use_action(29236)
-                if jipao_remain > 0 and m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one:
-                    m.use_action_pos(29237, me.pos)
-                if jipao_remain == 0 and m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one:
-                    m.action_state.use_action(29236)
+                if jipao_remain == 0 and not m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one:m.action_state.use_action(29236)
+                if jipao_remain > 0 and m.limit_break_gauge.gauge      == m.limit_break_gauge.gauge_one:m.use_action_pos(29237, me.pos)
+                if jipao_remain == 0 and m.limit_break_gauge.gauge     == m.limit_break_gauge.gauge_one:m.action_state.use_action(29236)
 
     if du_remain > 0 and kuosan_remain < 15:
         if target_kuosan and kuosan_remain == 0:
@@ -160,8 +158,8 @@ def sch_test(m, is_pvp=True):
             m.action_state.use_action(29234, target_kuosan.id)
             #m.action_state.use_action(29234, target_kuosan.id)
         if target_kuosan_double and kuosan_remain < 15 and kuosan_remain > 0:
-                m.targets.current = target_kuosan_double
-                m.action_state.use_action(29234, target_kuosan_double.id)
+            m.targets.current = target_kuosan_double
+            m.action_state.use_action(29234, target_kuosan_double.id)
     if any(status_id in me.status for status_id in debuff_status_ids) and heal_jinhua == 0:
         m.action_state.use_action(29056)
     if me.current_hp < me.max_hp * 0.5 and me.current_mp > me.max_mp * 0.25:

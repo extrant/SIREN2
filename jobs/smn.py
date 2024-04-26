@@ -68,15 +68,11 @@ def smn_test(m, is_pvp=True):
                 if m.limit_break_gauge.gauge != m.limit_break_gauge.gauge_one:
                     vars.smn_fire = False
     if vars.used_mode == 0:
-        #imgui.text("1")
         if vars.main_target and vars.be_target.isdigit(): 
             vars.mch_main = m.main.main.mem.actor_table.get_actor_by_id(int(vars.main_target))
-            #imgui.text("2")
         else:
             vars.mch_main = None  
-            #imgui.text("21")
         if vars.mch_main is not None and me is not None:
-            #imgui.text("3")
             if glm.distance(me.pos, vars.mch_main.pos) > 20:m.main.main.gui.add_line(me.pos, vars.mch_main.pos, glm.vec4(1, 0, 0, .5), 5)
             else:m.main.main.gui.add_line(me.pos, vars.mch_main.pos, glm.vec4(0, 1, 0, .5), 5)                
             main_target_player = m.main.main.mem.actor_table.get_actor_by_id(int(vars.mch_main.target_id))
@@ -142,35 +138,6 @@ def smn_test(m, is_pvp=True):
                 vars.target_lb_id = "0"
 
 
-
-
-#@register_strategy(27) #召唤
-def smn_test_old(m, is_pvp=True):
-    target = m.targets.current
-    me_target = m.me.target_id
-    if me_target is not None:
-        main_target = m.main.main.mem.actor_table.get_actor_by_id(int(me_target))
-    vars.now_job = 27
-    if (me := m.me) is None: return 4
-    #if (target := m.targets.current) is None: return "无目标！"
-    if not m.is_enemy(me, target): return 6
-    if m.action_state.stack_has_action: return "动作执行中"
-    gcd_remain = m.action_state.get_cool_down_by_action(3617).remain
-    if gcd_remain > .5: return 8
-    #if m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one:m.use_action_pos(29673, glm.vec3(me.pos.x + 50, me.pos.y + vars.a29537_high, me.pos.z))
-    if m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one and main_target is not None:
-        if main_target.pos.y - me.pos.y > 0:
-            fix_high = main_target.pos.y - me.pos.y
-            #m.use_action_pos(29673, glm.vec3(main_target.pos.x, main_target.pos.y + (vars.a29537_high - fix_high), main_target.pos.z))
-            m.use_action_pos(29673, glm.vec3(main_target.pos.x, me.pos.y + (vars.a29537_high - fix_high), main_target.pos.z))
-        else: m.use_action_pos(29673, glm.vec3(main_target.pos.x, me.pos.y + vars.a29537_high, main_target.pos.z))
-        
-        return "龙神！"
-    else:
-        return "极限槽未满"
-    #else:
-    #    return "非匹配条件目标"
-    #    pass
     
 
 def smn_panel():

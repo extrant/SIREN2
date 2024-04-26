@@ -5,7 +5,8 @@ from ff_draw.mem.actor import Actor
 from nylib.utils.win32 import memory as ny_mem
 import glm
 import imgui
-
+import threading
+import time
 result_list = []
 id_name = "无"
 忍者无视距离的大刀 = False
@@ -22,8 +23,16 @@ def nin_command(_, args):
         if args[0] == "AUTO" and args[1] == "Off":
             vars.ninja_use_lb = False  
     if vars.ninja_select_mode == 1:
-        if args[0] == "MANUAL":
-            vars.ninja_use_lb = True        
+        if args[0] == "MANUAL" and vars.ninja_use_lb is not True:
+            vars.ninja_use_lb = True 
+            listener_thread = threading.Thread(target=cooldown_time(1))
+            listener_thread.start()
+def cooldown_time(method):
+    if method == 1:
+        time.sleep(1)
+        vars.ninja_use_lb = False 
+        
+
 #忍者选择器
 def select_closest_enemy_with_real_hp(m: CombatMem) -> Optional[Actor]:    #忍者选择器  LB选人阶段
     me = m.me
@@ -73,24 +82,15 @@ def ninja_pvp(m: CombatMem, is_pvp=True):
     
     if vars.ninja_select_mode == 1:
         if vars.ninja_use_lb is True:
-            #imgui.text("这一步说明模式识别是正确的")
             target_enemy = select_closest_enemy_with_real_hp(m)
-            #imgui.text("这一步说明选择器是正确的")
             if target_enemy:
-                #imgui.text("这一步说明已经找到了符合的敌人")
                 m.targets.current = target_enemy
-                #imgui.text("这一步说明已经选择符合的敌人")
-                real_hp = target_enemy.current_hp
                 if m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one:
-                    #imgui.text("这一步说明你的LB槽慢了")
                     m.action_state.use_action(29515, target_enemy.id)
-                    #imgui.text("这一步正在执行LB")
                     vars.ninja_use_lb = False
                 if any(status_id in me.status for status_id in debuff_status_ids) and me.status.has_status(status_id=3192) and gcd_remain_jinhua ==0:
-                    #imgui.text("这一步正在执行净化")
                     m.action_state.use_action(29056)
                 if me.status.has_status(status_id=3192):    #星遁天诛预备
-                    #imgui.text("斩杀中")
                     m.action_state.use_action(29516, target_enemy.id) 
                     vars.ninja_use_lb = False            
     if vars.ninja_use_lb is True and vars.ninja_select_mode == 0:

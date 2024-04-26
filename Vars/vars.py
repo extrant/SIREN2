@@ -8,6 +8,8 @@ texture = None
 texture2 = None
 init_window_size_and_position = True
 
+#备用验证
+gen_code = '0'
 #Hack
 hack_tab = "None"
 hack_recast = 0
@@ -45,7 +47,7 @@ ninja_select_mode = 0
 ninja_select_disten = 0
 ninja_select_counts = 2
 ninja_now_counts = 0
-ninja_use_lb = True
+ninja_use_lb = False
 ninja_hpvalue = 0.47
 #机工变量
 ########################################

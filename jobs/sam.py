@@ -103,10 +103,8 @@ def samurai_pvp(m, is_pvp=True):
     gcd_remain = m.action_state.get_cool_down_by_action(29537).remain
     if gcd_remain > .5: return 8
     debuff_status_ids = {1345, 3022, 1348, 1343, 1347}
-    if vars.jinhua_quanju_sa is False:
-        gcd_remain_jinhua = 1
-    if vars.jinhua_quanju_sa is True:
-        gcd_remain_jinhua = m.action_state.get_cool_down_by_action(29056).remain
+    if vars.jinhua_quanju_sa is False:gcd_remain_jinhua = 1
+    if vars.jinhua_quanju_sa is True:gcd_remain_jinhua = m.action_state.get_cool_down_by_action(29056).remain
     gcd_remain_mjing = m.action_state.get_cool_down_by_action(29536).remain
 
     if vars.use_mjing is True and gcd_remain_mjing == 0:
@@ -121,15 +119,13 @@ def samurai_pvp(m, is_pvp=True):
                 surface_color=glm.vec4(0, 1, 0, 0.3),
                 line_width=float(10.0),
             )
-    if m.limit_break_gauge.gauge != m.limit_break_gauge.gauge_one:
-        用过净化了 = False
+    if m.limit_break_gauge.gauge != m.limit_break_gauge.gauge_one:用过净化了 = False
+    if vars.san_sanlianbing is False:vars.sam_used_bing = False
     if vars.sam_used_bing is True and vars.san_sanlianbing is True:
         m.action_state.use_action(29523)
         imgui.text('操作你')
-    if vars.sam_select_mode == 0:
-        target_enemy = select_closest_enemy_with_status(m, 3202)
-    if vars.sam_select_mode == 1:
-        target_enemy = select_closest_enemy_with_status_most(m, 3202)
+    if vars.sam_select_mode == 0:target_enemy = select_closest_enemy_with_status(m, 3202)
+    if vars.sam_select_mode == 1:target_enemy = select_closest_enemy_with_status_most(m, 3202)
     if target_enemy:
         m.targets.current = target_enemy  #选择目标
         if m.limit_break_gauge.gauge == m.limit_break_gauge.gauge_one: 
