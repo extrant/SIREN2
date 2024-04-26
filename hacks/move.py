@@ -220,7 +220,7 @@ class NoFallDamage:
         self.mem = main.main.mem
         self.handle = self.mem.handle
         shell, script_file = make_shell()
-
+        
 
         self.p_cfg = self.mem.inject_handle.run(shell, {
             'on_send_flag': self.mem.scanner_v2.find_val("e8 * * * * 48 ? ? c6 05 ? ? ? ? ? 48")[0],
@@ -232,7 +232,7 @@ class NoFallDamage:
         self.cfg = dict2struct(self.data.get('hook', {
             'speed_percent': 1,
         }), MoveHookConfig)
-
+        self.safe_mode = False
     @property
     def cfg(self):
         return ny_mem.read_memory(self.handle, MoveHookConfig, self.p_cfg)
@@ -246,7 +246,10 @@ class NoFallDamage:
         any_data_change = False
         any_hook_change = False
 
-
+        if self.safe_mode is False:
+            cfg.y_adjust = 0
+            any_hook_change = True
+            self.safe_mode = True
         change, new_val = imgui.checkbox('无视掉落伤害', cfg.no_fall_damage)
         if change:
             cfg.no_fall_damage = new_val
@@ -259,15 +262,27 @@ class NoFallDamage:
         if change:
             cfg.y_adjust = new_val
             any_hook_change = True
-            
+
+        if imgui.button("恢复成0"):
+            cfg.y_adjust = 0
+            any_hook_change = True
+        imgui.same_line()
+        if imgui.button("遁地-7"):
+            cfg.y_adjust = -7
+            any_hook_change = True
+        imgui.same_line()
+        if imgui.button("遁地-5"):
+            cfg.y_adjust = -5  
+            any_hook_change = True
+
+
         if any_hook_change:
             self.cfg = cfg
             self.data['hook'] = struct2dict(cfg)
             any_data_change = True
         if any_data_change:
             self.main.storage.save()
-
-
+     
 class MovePermission:
     def __init__(self, main: 'Hacks'):
         self.main = main
@@ -597,80 +612,83 @@ def uninstall_multi(key):
                 self.territory = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'   
         imgui.same_line()
         imgui.text(str(self.territory))
-        if self.coordinates_data:
-            #map_ids = list(self.coordinates_data.keys())
-            map_ids = list(self.coordinates_data.keys())
-            # 构建包含地图 ID 和地理区域信息的列表
-            map_id_with_territory = []
-            for map_id in map_ids:
-                try:
-                    territory = self.mem.main.sq_pack.sheets.territory_type_sheet[int(map_id)]
-                    territory_description = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'
-                except KeyError:
-                    territory_description = 'N/A'
-                map_id_with_territory.append(f"{map_id} - {territory_description}")            
-            #clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_ids)
-            clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_id_with_territory)
-            if clicked:
-                self.selected_map_id_index = selected_map_id_index
-
-            if self.selected_map_id_index is not None:
-                selected_map_id = map_ids[self.selected_map_id_index]
-                coordinates = self.coordinates_data[selected_map_id]
-                coordinate_items = [f"{coord['coordinates']} - {coord['note']}" for coord in coordinates]
-                clicked, selected_coordinate_index = imgui.combo("选择TP节点", self.selected_coordinate_index, coordinate_items)
-                
+        if tid in [1165, 1197]:
+            self.tp = False
+        if tid not in [1165, 1197]:
+            if self.coordinates_data:
+                #map_ids = list(self.coordinates_data.keys())
+                map_ids = list(self.coordinates_data.keys())
+                # 构建包含地图 ID 和地理区域信息的列表
+                map_id_with_territory = []
+                for map_id in map_ids:
+                    try:
+                        territory = self.mem.main.sq_pack.sheets.territory_type_sheet[int(map_id)]
+                        territory_description = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'
+                    except KeyError:
+                        territory_description = 'N/A'
+                    map_id_with_territory.append(f"{map_id} - {territory_description}")            
+                #clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_ids)
+                clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_id_with_territory)
                 if clicked:
-                    self.selected_coordinate_index = selected_coordinate_index
+                    self.selected_map_id_index = selected_map_id_index
 
-                if imgui.button("跨界传送"):
-                    self.me_pos_temp = self.me.pos
-                    self.wait_to_teleport = True
-                    self.mem.do_text_command(f'/#SirenPVPSpeed 0')
-                    self.mem.do_text_command(f'/e 移速已为0 <se.11><se.11><se.11><se.11>')
-                    coord = coordinates[self.selected_coordinate_index]['coordinates']
-                    self.mem.do_text_command(f'/e 你的TP位置{coord}')
-                    self.mem.do_text_command(f'/e 跨界传送TP移速被锁为0后请进行对应地图区域传送。') 
-                    self.mem.do_text_command(f'/e 只要是会被服务器移动的都可以使用这个TP(死亡复活)') 
+                if self.selected_map_id_index is not None:
+                    selected_map_id = map_ids[self.selected_map_id_index]
+                    coordinates = self.coordinates_data[selected_map_id]
+                    coordinate_items = [f"{coord['coordinates']} - {coord['note']}" for coord in coordinates]
+                    clicked, selected_coordinate_index = imgui.combo("选择TP节点", self.selected_coordinate_index, coordinate_items)
+                    
+                    if clicked:
+                        self.selected_coordinate_index = selected_coordinate_index
 
-                if self.wait_to_teleport is True:
-                    imgui.same_line()
-                    if imgui.button("取消"):
+                    if imgui.button("跨界传送"):
                         self.me_pos_temp = self.me.pos
-                        self.wait_to_teleport = False  
-                        self.mem.do_text_command(f'/#SirenPVPSpeed 1')                
-
-                    #self.teleport_to_coordinate(coord)
-                    #print(coord)
-                    if self.me.pos != self.me_pos_temp:
-                        imgui.text(f'准备传送')
-                        imgui.same_line()
-                        imgui.text(f'{selected_map_id}==>{self.tid}')
+                        self.wait_to_teleport = True
+                        self.mem.do_text_command(f'/#SirenPVPSpeed 0')
+                        self.mem.do_text_command(f'/e 移速已为0 <se.11><se.11><se.11><se.11>')
                         coord = coordinates[self.selected_coordinate_index]['coordinates']
-                        if str(selected_map_id) != str(self.tid):
-                            self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
-                            self.mem.do_text_command(f'/#SirenPVPSpeed 1')
-                            self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
-                        else:
-                            self.teleport_to_coordinate(coord)
-                        #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
-                        #self.mem.do_text_command(f'/e 移速恢复')                        
-                        self.wait_to_teleport = False
-                imgui.same_line()
-        if imgui.button("保存新坐标"):
-            self.save_coordinates(str(tid), f"{self.me.pos.x:.3f},{self.me.pos.y:.3f},{self.me.pos.z:.3f}", self.temp_note) 
-        imgui.same_line()
-        if imgui.button("删除选中坐标"):
-            if self.selected_map_id_index is not None and self.selected_coordinate_index is not None:
-                selected_map_id = list(self.coordinates_data.keys())[self.selected_map_id_index]
-                self.delete_coordinate(selected_map_id, self.selected_coordinate_index)
-                imgui.same_line()
-                imgui.text("选中坐标已删除！")
-                # 删除坐标后重置选中的坐标索引
-                self.selected_coordinate_index = 0
-                self.load_coordinates()  # 重新加载坐标数据更新 GUI                    
-        imgui.text("添加新坐标:")
-        _, self.temp_note = imgui.input_text("注释:", str(self.temp_note), 100)   
+                        self.mem.do_text_command(f'/e 你的TP位置{coord}')
+                        self.mem.do_text_command(f'/e 跨界传送TP移速被锁为0后请进行对应地图区域传送。') 
+                        self.mem.do_text_command(f'/e 只要是会被服务器移动的都可以使用这个TP(死亡复活)') 
+
+                    if self.wait_to_teleport is True:
+                        imgui.same_line()
+                        if imgui.button("取消"):
+                            self.me_pos_temp = self.me.pos
+                            self.wait_to_teleport = False  
+                            self.mem.do_text_command(f'/#SirenPVPSpeed 1')                
+
+                        #self.teleport_to_coordinate(coord)
+                        #print(coord)
+                        if self.me.pos != self.me_pos_temp:
+                            imgui.text(f'准备传送')
+                            imgui.same_line()
+                            imgui.text(f'{selected_map_id}==>{self.tid}')
+                            coord = coordinates[self.selected_coordinate_index]['coordinates']
+                            if str(selected_map_id) != str(self.tid):
+                                self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
+                                self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                                self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
+                            else:
+                                self.teleport_to_coordinate(coord)
+                            #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                            #self.mem.do_text_command(f'/e 移速恢复')                        
+                            self.wait_to_teleport = False
+                    imgui.same_line()
+            if imgui.button("保存新坐标"):
+                self.save_coordinates(str(tid), f"{self.me.pos.x:.3f},{self.me.pos.y:.3f},{self.me.pos.z:.3f}", self.temp_note) 
+            imgui.same_line()
+            if imgui.button("删除选中坐标"):
+                if self.selected_map_id_index is not None and self.selected_coordinate_index is not None:
+                    selected_map_id = list(self.coordinates_data.keys())[self.selected_map_id_index]
+                    self.delete_coordinate(selected_map_id, self.selected_coordinate_index)
+                    imgui.same_line()
+                    imgui.text("选中坐标已删除！")
+                    # 删除坐标后重置选中的坐标索引
+                    self.selected_coordinate_index = 0
+                    self.load_coordinates()  # 重新加载坐标数据更新 GUI                    
+            imgui.text("添加新坐标:")
+            _, self.temp_note = imgui.input_text("注释:", str(self.temp_note), 100)   
         imgui.text(f'你自己最好知道你在干什么！') 
         if self.me is not None:
             for status_id, param, remain, source_id in self.me.status:
