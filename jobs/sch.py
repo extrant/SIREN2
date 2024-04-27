@@ -37,7 +37,7 @@ def select_du_enemy(m: CombatMem, select_status_id: int) -> Optional[Actor]:
     for actor in t:
         actor_counts[actor] = len([other_actor for other_actor in t if glm.distance(actor.pos, other_actor.pos) <= 15])
 
-    vars.sch_enemy = len(x for x in actor_counts if actor_counts[x])
+    #vars.sch_enemy = len(x for x in actor_counts if actor_counts[x])
     filtered_actors = list(filter(lambda x: actor_counts[x] >= vars.select_most_du_value, actor_counts.keys()))
     if filtered_actors:
         target = max(actor_counts, key=actor_counts.get)
@@ -77,7 +77,7 @@ def select_du_kuosan_enemy(m: CombatMem, select_status_id: int) -> Optional[Acto
     for actor in t:
         actor_counts[actor] = len([other_actor for other_actor in t2 if glm.distance(actor.pos, other_actor.pos) <= 15])
 
-    vars.sch_enemy_a = len(x for x in actor_counts if actor_counts[x])
+    #vars.sch_enemy_a = len(x for x in actor_counts if actor_counts[x])
     filtered_actors = list(filter(lambda x: actor_counts[x] >= vars.select_most_du_value, actor_counts.keys()))
     if filtered_actors:
         target = max(actor_counts, key=actor_counts.get)
@@ -114,7 +114,7 @@ def select_du_kuosan_enemy_double(m: CombatMem, select_status_id: int) -> Option
     for actor in t:
         actor_counts[actor] = len([other_actor for other_actor in t2 if glm.distance(actor.pos, other_actor.pos) <= 15])
 
-    vars.sch_enemy_b = len(x for x in actor_counts if actor_counts[x])
+    #vars.sch_enemy_b = len(x for x in actor_counts if actor_counts[x])
     filtered_actors = list(filter(lambda x: actor_counts[x] >= vars.select_most_du_value, actor_counts.keys()))
     if filtered_actors:
         target = max(actor_counts, key=actor_counts.get)
