@@ -218,12 +218,17 @@ class ShopQuantity:
         mem = combat.main.mem
         self.handle = mem.handle
         self.p_code = mem.scanner_v2.find_address("41 ?? 63 00 00 00 41 ?? ?? 44 ?? ?? ?? 41") + 0x2
+        self.p_code5 = mem.scanner_v2.find_address('83 ? ? 76 ? bb ? ? ? ? eb') + 0x2
+        
+        self.p_code6 = mem.scanner_v2.find_address('bb ? ? ? ? eb ? 85 ? 41 ? ? ?') + 0x1
         self.p_code1 = int("7FF7F15626FC",16)
         self.p_code2 = int("7FF7F1562700",16)
         self.p_code3 = int("7FF7F1562704",16)
         self.p_code4 = int("7FF7F1562708",16)
         #print(self.p_code)
         self.raw = ny_mem.read_uint(self.handle, self.p_code)
+        self.raw5 = ny_mem.read_ubyte(self.handle, self.p_code5)
+        self.raw6 = ny_mem.read_uint(self.handle, self.p_code6)
         self.raw1 = 0#ny_mem.read_uint(self.handle, int("7FF7F15626FC",16))
         self.raw2 = 0#ny_mem.read_uint(self.handle, int("7FF7F1562700",16))
         self.raw3 = 0#ny_mem.read_uint(self.handle, int("7FF7F1562704",16))
@@ -239,16 +244,18 @@ class ShopQuantity:
     @state.setter
     def state(self, value):
         new_value = 999 if value else 99
+        new_value2 = 255 if value else 99
         ny_mem.write_uint(self.handle, self.p_code, new_value)
+        ny_mem.write_ubyte(self.handle, self.p_code6, new_value2)
         self._state = value 
 
     def draw_panel(self):
         imgui.text(f'当前购买最高{self.raw}')
         changed, new_val = imgui.checkbox("去除购买限制", self.state)
+        imgui.text('部队战绩交易量最高为255,交易数量突破99都属于异常封包 \n请酌情开启')
         if changed:
 
             self.state = new_val
-            self.raw = ny_mem.read_uint(self.handle, self.p_code)
         return changed, new_val
 
     def draw_2(self):
