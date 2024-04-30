@@ -494,6 +494,7 @@ def uninstall_multi(key):
         self.collapsed_states = {}
         main.main.command.on_command['SirenPVPTP'].append(self.cmd_tp)         
         main.main.command.on_command['SirenPVPTPMo'].append(self.cmd_tp2)
+        main.main.command.on_command['SirenPVPTPFly'].append(self.fly_tp)
         self.tp=False
         self.tid = -1
         self.me_pos_temp = None
@@ -582,7 +583,8 @@ def uninstall_multi(key):
             return self.logger.warning('cursor_to_world failed')
         print(pos)     
         self.testPos(pos)
-
+    def fly_tp(self, _, args):  
+        self.flyPos(self.me.pos + glm.vec3(0, 1, 0))
 
     def draw_panel(self):
         #if not self.show_imgui_window: return
@@ -713,7 +715,8 @@ def uninstall_multi(key):
         #self.keyboard.release(Key.space)        
         if self.tp:
             ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
-
+    def flyPos(self, ooPos):     
+        ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
             
     def writePos(self,toPos:glm.vec3)  :    
         if self.tp:    
@@ -724,8 +727,6 @@ def uninstall_multi(key):
     def movefly(self):
         ooPos= me.pos + glm.vec3(0, 1, 0)
         ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
-          
-      
     def teleport_to_coordinate(self, coordinates):
         self.mem.do_text_command(f'/#SirenPVPSpeed 1')
         self.mem.do_text_command(f'/e TP成功，移速已恢复 <se.4><se.4><se.4><se.4>')
