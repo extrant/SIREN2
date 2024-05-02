@@ -1,3 +1,721 @@
-# Pyarmor 8.5.1 (trial), 000000, non-profits, 2024-05-02T15:01:05.057773
-from .pyarmor_runtime_000000 import __pyarmor__
-__pyarmor__(__name__, __file__, b'PY000000\x00\x03\x0b\x00\xa7\r\r\n\x80\x00\x01\x00\x08\x00\x00\x00\x04\x00\x00\x00@\x00\x00\x00\xa9\x0b\x00\x00\x12\t\x04\x00E\rE\xc8\xe4zH?.\xadV\r\xdbm\xc1+\x00\x00\x00\x00\x00\x00\x00\x00E\xd4\x9f\xb7\x8cO\xe2$*\xcf\xad\xfd\xf7\xd2\'y:\xf4\xc6\xfd\xc6z\xef{\x0e\xc3\xd0~\xd2<L6\xa3\xce\xd4\x14\xcaD\x00n\xb6\xe9Ieo\xf6\x0f\x8a\x7f\x11Y\xca\xf07\xd7=m\xd9DXc\xf2nX\x05\xafN\x0c\x1e\x87\x95\xc13\x86\xeb\x08\x94\x95f\xe8\x96\xcc1\xcdX\xe0\xdfiB\r\xb0F\x92\xa1\xb5T`"Y\xd2\x10\xfbB\xe6\xaa!\xa6\xa0\xf5;|\xb3x\x02X\xde\xf5\x1d\xf79.\xcd\xeb"u\xdcq\x83\xba\xe9\xd1\xc7~n\xb1\x15\x90Y\xd7\x80\x90\x9b\xce\xa3\xb8\xadaq\x98\xde\x96\xcb\x02A\x18\xed\x86j\xe8-3N\xab\xc8\xc2\xbb\x9b(-F\xa1t3\x9d\x94\xf5\xde\xfa\x98\x1b\xd3r\xe4!Y\xe1\xd8k\xfe\xb7\xb6\xab\xb6\xe6\xf2\x9b\xf3+r\t>\x05\xbb\x86\xe2\x9a&\xaaZwb\xecp\xef8\xa2\xa5\x03wI\xa5\x90\x18G\xe3vU\xf1\xa4F\xa3\xc7\xcd\xce\xb4\xf4\xa1C\xc6\x1eP\xc3\xbb\x9f\xe1\xebH\xa6!\x07\xa8\x82\xca\x10u-\x8c\x87\x1cN=u\xc6\xe8\xfd^\x9cQY\x17\xc0=\'\xa76\x19\xf0\x12<\x9f?\xc2W\x89\xbf\x9e\xd2\xd4\x95vb\xfc3)\x04\xc9D\xeamNW\x83\xf1Y\x93\xb5\x04b%&w~\xaejk\xb2\xd4\xd3\xd48.8\x13\xc4\x7f4\xabs\xc1\x8b\xb9j\x0e\xc1\x08\x8f1S`B\t\'\x85\x1c-kM\xdf]\x06=\xea\x022\xb5\xd6:`\x1b\x98\xb1\xb2;\xb9\xfap\xe4\xcdqT\xb6}\xbc\xae\xce\xdf\xbfD\xb2\x9c\xe7Q\xfe\x9d\xb2<A\xf8\x84QL\x0bhbn\xf1\x0f\x8e\xf7.\x03%S!\x14%\xca\x89\xb1\xa7\xd2\t\xa3\x96\xfe\xf8\xdfM\x96\x86SZ\xd2\xefg\xd6\xdd\xe7\xd7\x04K\x8b\x97\xdc\x1f\xc3+]\xed\xaeZ\xeb\xdd\xc4J\xd0\xa7N\x99~\xec\xc1(\xa7\xaeX6\x91\xf7\xc8\xc3S\xbb\x89|\x905\xe1\xb3\xd8\xe3*,\x13y\\Iq\x1fF\xc9E5n\xf9\xe5Y+\xb6\xae\xb6\xa0\x95\xdeh\xd9\x89\x0f\x1b\xd2\xbb\x82\x0e\x84\x1c\x00\x06\xcb9\xa4\x98lZt\x13\xf2\xc5 \x17\xd8\xad\x0b\xb43\xbb\xe43n\xd6&\xdc\xee\x15\xc6\xb57\x14\x11R\xfdI\x98Y8\xe7\r\xab\r\x86\xf0\xc6e``\xb8\x06m\xd3\xd6\xc5\x1e\x99\xd4\xf2\xed\x89\r\x8ckR\x14B\xd0\xcd| @\x9e\xf9\xc3l\xecz}9\x99\x8a\x88x\xa1\x13\xc4E1\xea4\x8e\xe9\xcc[\x07\x9a\xfa\xfe\xb7H\x14=\xdf\x08\x9e\x1c\x1a\xdcY\xda\xad\x12\xc2\xed\xffas\x0c\xf7\r\x1a\x8aY\xcdC\x16\xda\x1a_\x9f1\x98Nf\x9dW\xe2\x9aL@\xf9\xbc\xa4\rv\x13]\x11C\xfd^D\xec\xe4\xb8\x08\x98;j\x9c\xad\x9e\xee\xf2"\xd2\xb7\xa2\xd0\xfc\x8f\xf2.&\xdf\xc1\xe6\xa2\xf5Rz\x1e\xac\xda\'\x1c\xe7#\x0b\xe8\xec\xa5k]\x8a\xca\xd2\xe6\xb6\x7fH\x12~.>4\xc5\x1d\x7f\x88!N\x82\xbe\xf1\x1c\xc3\x04B\x0c\x10\xb2\x82\xbe$\x1a\xb0HcNW\xbf\xedb\x96k\xe6\x8d\x95m \xf7\x8f"\x1bkZ\xa3\x0b\x85\xf3E\xd3\xf4\x9d\xb4\x81\x13\xe7\'\xd8\xba\x88\xf8V\xef\x00.\x95\x85\\rK+\x06\xa1\xc1RM\xack\x91\n\xba \xe9\x96\xa9/\x89\x81k\x11\xf3NvL\x96lc\xb8\xe1\xa3\xe9v\xdb=,\x01\xdd\xe0a9\xa3\twI\xc1\xeeW\x86\xb7\xe6\x00\xc2]\xfb\xce\x14\x00\x1c\x8d\xcb\x86e\x9e\xe6\xd8P\xf4\xeaA\xc4\x9ai\xdc[\xc7\xd3\r=A\x14l\x90\xad\n\xcbI\xc2\x1f\xc2\x01\xf7u\xf4Ngp\xa5F)\xdb\xc1\xde\x85\x00\x99\xb4\x16u\xee7\xb2\xf8\n\x86\\N\\\x98\xc0]2\x83\xf7\xc7=\xcd(\xdc\x91\xa2\xbc\xe2\xb7\x0e\xe5A\x0b\x87\xb1|b[\xcc{@\xfb\xacz\x14\xb8\x07\x972|\x1dB\xb4\x1aF\x07\x97#JC\xa3%\xe6\x86\xaaB\xcdi\xa2\x82\xa8\x03]\xe5\x86dn\xd0\x1d\xd6\xa9\xea@\x91\xbeI\xd9\r\xb96G\x17\xb7\xac\x9b]\xdbq\xd1\xff\x0f\xbd \xc3\xc6\x8e\x84\xf1\x9f\x85/\xf9\xce\xd8\xa7_\xc9\xba\x8f\x98+\xec\xea\x95BZ\xca\x83\x08\x86\x0e\x86\xfa6D\xbb\xcf\x9bd\x80\xf3\x12\x0e\xe8\xe3\xa00M\x03\xaf\xde<\xc8r\x0e\x85\x12\xfeY\x8f\x93\x8d\xd0\x9c\x85\xba\x08\xc6\xab\x16]\x92\xcbM\xa3\xd2\xd6h\xd9\x14\x7f\xbb\x05\x9f|\xfa8@\x11\x1b\xf1t\x0e\xd00i\xd7\r\x15Y\x11\xac\xc1\x1cR_\x1e\xcd\xb6\xb7\xc44\x81\x11\xa6\x0f\xc5mzK\x9b\xd2\x93D~\xbb\xf0\x13\xbb\xa983}\xcd\x83\x8f\xa6;\x97\xd0\xfeG3C\xe1\x85H\x05\xed\x82\nZ\xdd\xb6hu\x7f9\xfc@\xf4 \xaa\x11\x9b\xd0o\x97\xc2\xd0\x85\xa7\xa0\xd8\xcb\xd0T\x0b\xaa\xbaX\xbc+jA\x04\xca\xb9b\xd4\xe2~Km\xa4\xcc\xc8\xe4\x91\x00\x01\x1a\xef$\x89\x1b\x85\xc31P\xf6\xd2\x11\xccx\xbf\xc0\xa3\xaed\xfd\xc5H\x95\xaf\xf29l\x80\x03\xdd\x01\xe2\xc9ltE\xec\xb97\xd9\xe0\xce\xcf\xd6\xd1\x9d\x86}\xd24\xdb\xacU\xef\x8c1:p(\x10\xb5O/\x91e\xb00>\xa3\x8c\xfa\x1bV\x9d\x15\x92g\x96v\xb0\x9b\xb6\x99\xcd\xa5\xe2bI\xafm\xf6\x9b\x00PV\xdc\xe8\x03\xef\xdc\xfe\xd1\x8c\xa9T2\xccaa8\xdd\xfe\x0ei\x8e\xcc\xf0\x85x\x0bn\xf0\'\xdc\xe7VYY\xa2*\xd2\xbb%\x98U\xbbSk\xa0n\xba\x99\x0b\xbd\x9a*\x0f\xe6\xef\xff\xe7\xc5M\xff\xbb\x84\x85\x19\xb6\xc9:\xfd\xf0\xe5J\xf0\tJ\x8b!E\x17Q\x18\x9egv\xaa\xb6\x83\xd7\x1f\xcb8k\x0c)\xc0gn\xef*\x93\x8d\x02,\x10\x0b\xdb\x7f\x91\'Z\x0e4.b(\x1a\x85$\xed@\xa8\x14\x0f\xc5+y\xb3L\x0b\xb9|\xd7\xabC\xbe\xaf\x8a\xc7\xdc\r\xc8\xc8\xee\xcdd\x19\xff\xed\x02\r\xbc\xf9\xcb\xef\x91\xce\xf8\xc5D\xa6\xecTW2;>\xa5\x93\x8bN)oC\x89F\xbf=\x18\xd0\x10\xe4\x83\x11\xac=\x9d\x8ex(O\xd0\xf9\xf2%\x91\x8b\x97\x98F\xcd\xae\xa9)\x05\x0c6\xb9\x85\xa7\xcd\x08^|\xef\xc8\xfaWe\x84\xff8\x1d\rO\xd5\xbd\xe7 \xbf\xecr\xb0\xfd\xda\x94!\xfc\x07MX\xe4\xfa\x1e\xbc\xca\xaeB\x12c\xba\x06\xc3+\x82\xd8\n\xbby\xbc\xd8A\x14\x18\xcb\x9e\x9a\x06\xa9\x88/\xb32#\xf7\xc8\xbb\xd0Q\x10\xe5\xf88k\xa14\xe3\xf0\x19\r\x8d\x87\xb0\xb3\xba\xad\x16J\x8e$\x1f\x0b\x16%9&yn\xa1\xee\x93\xc3\xeb\x11:t\xdb\x7fCE\xe8\x90\xdbF)\xf9=0d\\\xd0\xa6f\x18\xd1\xb5Z\xe3(4\x1e56S\x1e\xa5\xffv\x87\x18\n\xbd\xb7\xe8\xa1PL\xed\xa2l\x0b\x95oo\x9f\x84Dl\xc01\x86\x0f\x1a\x87h\xd1\x05:\x00\xc2\xfbkwI=\xc4\xc01\xf2/\x04\xb1\x8f\x1a\xbap\xbe\xda8\xd5TI\\\xd8T?\xc1l\x80\x01\xd90\xd6\xdb\xd9\xc5\x8f[m*\xf4JK\x7f\x92\\\x16\xd6TR\x08\xcb\xce\xc8g->3\xc8dwqrBA\xfa\xec\x9fa\x17\x8dY\t\xba\x00\xa9\xdba\xc9\x167\xb8 \x08\x1c\x15\x94\xd8\xfc\x18\xa9m\xe6\x0c\x03\x06\xf4\x0c\xab\xa0\x11\x97\x86t\xe6\xfdi\x83EO\x98e/)\t\x9aD\x9f\x05\x1e{\xd2~\x85M\xeee$\xd7\xf5\r/CE\xbf<\xaa.^ \x18#\x84&\xec\xe4\rI\x109\xfei\xb5\xda\xb1\x87\x1d\xc6p~K\x95\xe6<0=nwh\t\xa3\xb6\xd1\xd6?-x}6\x01\x81o\xf7\x81i\xa5\x9b\x8f\xa0"\xb5>p_aFy\x91\xa0g\xcd\xdd\xee\x02\xd2La\xf18\rls-\xe1\x12}1\xf4`\r\xa9\xae\x07Q\xd2\xeb\xe1\x98\x1d\xfb\xff\xda1r\xb3\x8b)z<\xb9\r\n\x88u\x03J\xe7R_\x9a\xca\xd5\xe6\x87~kobw\xb30\xa7\xda\x86\xa9\x8b_Yp\xca5\xb6\xa2\n"v\\Jdl\xbd%\xf3\xed\x19\xe16\xa3\x1f!\xe5\xfa\xbeK\xe3\x9f\xec\x0f\xda\xf3\x1b\x88\xb5n\xab\xcc\xd9W\x85\xd4\xc1@w\x95\xf5\xe2\x02\x95X\xc5Q\xf7\x15\x98\x19<\xcc\x92DkhF\xe9\r\xee\xacA\xdc8\x86*\x9e|\xa7\xc85\x99}\xf4\x9c\x8c\x14\xa9qA\x9a\xd0[`\\\x08\xfc\xf2W\x1a\r\xaf\xd2\x9f\xab/\x94\xfc\x85A\xc5\xba\xc6"q/d\xa1\xb8\xe4S\xb7~\x8cN\xd5\x8d\t\xd4|\x86"X#)\xa1KIrc>\x97\xf4O\x8e\x98XA\xbf*\xbe\n\xbb`\x82\x9e=\xb9\x94]\x87&G\xc1\xe0g\x8d\xb8sC\x80]\x13\xc0$\x17\xabX\x0f\xf6We\xe3\x1f\x9e\x9a\xc5\xb8\xea\xfa\xc6\x88\xd3\xdf\x93\x85\x04\xaa\x11\x93\x1bU\x04\x94g\xbfa_l\x87\xb1\x05\x1b\xdf\xfaLr\xd3..[\xbb\xa2\x9c\x12DaO\xe1\x05\x1d\x8c\xc4\xf1?\x92\x83\xb2a\x82\xa0\x0c\x05\xbc\xdb\xd0\x9eC\x85\xd9\xf7\xe1\xea\x8f>P\x96\xa3\x83\xfe\'48\x1b\xc1\xdd\xd4\x81\xd2\xc53t\x9f\xf9\x103\x9f?\xa5R9@O_\xb1\x1b\r\xa7\x1d\x84\xf1\xc6\x08b\xb6z\x90\x9b\xacF\x9e\x08a\xe5\x81.\xc1C|\xd4\x8d^Cl\xb0\xa8\xc7\xc0\xebA\x02|\xfe\xbe&\xd5T\xa9\xaex\xb9\xed0@\x9c\x19\xfc\xc9XT\xf3\xfd\xcf\x7fs3\r86\xe6\xa2d\x0c;\x8eP\xa5\xc0\xc5\x16\x0c\n\x7f\xfd\xd4\x04\xe0L\xba\xd1\xdfg.\x0b5n\xee7\x8c\x00\x88\xa5\xe7\xd3j\xb7\x88\xb64\x85\x8diov\xdc\x9f\xb9\x11\x14\xb1\xde\xa43\x15\x83\xccl\xf9S\x97\xec\xe4\xd4L\x86\xad\t\xed\xa6\xcd\xe0"e\xa8\x98\x8dU\xfa4O\xce\x16e\xb8\x8f\xe1\xc5\xd3k8\xa0\xff/iJ\xa9\xd4\xcari\x9eUH\x0f)\xcc\x98b\xf4\xbe;/\x18\x1f\x9d\xffY\xb3\x15\x13\xecOVpD/\x14lb_&b\xe9V\xc2\x9c2\xafC\x1a\xaa\x96\x87\x14\xfe\x9a\xa8e?\x85\'V\xaf2 \xb9\xcd\xa1\xf7,[BKr\xc0@\x00J\xa2\xe6\x91Yf\xdb\xbc\xc8\xf1\xcd%\xa2\xc7\x92\xa3\rt\x85\x1e\xba\x0c\xa4\n\xa7\xeew\x15n\xef\xba\x95\xd2\x08\xebvB\x82\xb2\xdb\x99\xea\xf6\x84{#-w\xd9\x98\x9c\x83\x19)\x1ch9\xd5x\xba\xade\xe8&5+6n\x85\xda6\xb1\xe1\xe2b3\x11\xa9{\xc1\xbcc\x01#\r\x05\xcb\xa5\xfcB\xc6\x03\xbcI\xb7\xbe\x8c\x99*\xa3"\xf7\xb7Q\xa4T\x17\xffwU\xce>V2#;T\xfd\xb6\x95\x93\xb2\xdf\xcc\x1e\x8a\x1f78N\x84\xdc"\xc7\xef8\x0e\xbb\xecr\xf7fh\x1e\xf0M\x85\xcd\xd0\x8e\xf8\x19\xe89\xdf)\x7f lc\x17R\x01\xcb\x91\x9a\x13r\xaas\x95\x85\xc8\xc0V\x8d=\xea\xb1A3H\xd9\xfe\xa0?(x\xa5\xe2\xe8\xa1:`\x8d\xd6\xa2\x93\xc5\'\xb7\xd2\xe3I\x83\x0b\x93\x7f\xd1\x02T6\x84\xb7J\xb2\xb5\xbc@\xdb7\x99\xa4A-\xe1&B\xaf\xef\xc7P5m\xedP\xea\x1d\x93\x8e\xe9\xba\xc1t\x95\x81q>\x91r#\xd9W8\xf3\xf9Q\xf4\xa5i\xe5\x81f\xbd\xd09T^[\x9bF\xad\x96v\xb4\xc5\xc6"\xbf\xc7\x1c\x85\x7f\x8e8\xceh\x1a\x89\xb9\x0b\xd31jxH\xeb\xd8\x00\xc4&"\x1f=V\xc3\xbe#i\x10\x84`W\\\x84\xf7\xd64o\x06j6\xa7/\xe2L\xb5A\xc6\x9f\x93\xe4\xa3\xad\x0b\x88?\x18\x1c2\xed\xf8[ 1\xa8\x1a\xe1Bd\x1c\xa3|\xe5\t\x84\xe2~\xe8\x1b.\x97x9+\x1e\x86\x00L\xa8\xc1\x04\xff\xf8z\x14?\t\xd7\x80\xa3\xc06\x19\xab\xce\xbeZ\'\'\xdd\xc6*G \x18\xa1\x86\xab\x04\x1bx\xe4^#cO\xf2&\xe6\xa9\xda\xdcW\xe4$:\xf9\x99\xc5k\x80\x88\xb0P\x15\xd7\x1f\x10f@\x9cg\xac^\x12?n\x07\xe44\x11\xd4\x8ba\xbc5\xc7^\xbe9\xfb\xedt\xaff\xd0C\xd0\xddG\x93\x11\xe6K\xa0\x1f[\x1c8\x00\xf4\xa7\xe9/\xcfy\x1e\x12\xd8\xf2b\xaco\xf6s\xfbNG\xde\x81C\x02\x8a\x84\xf9J\xa0\x8f.\xf4\xfao+\xb74\t\x1a\xac\xef\xc8\xb4r* \x01\x8d\x82\xad_I\xa0yx\x9c\x7f]ky7\xccU\xb7\xca^\xd2\xa0u4\xfbX\x96$\x84-f;')
+import typing
+import imgui
+import json
+from pynput.keyboard import Controller, Key
+from ff_draw.gui.text import TextPosition
+from ff_draw.plugins import FFDrawPlugin
+import nylib.utils.win32.memory as ny_mem
+import pathlib
+import glm
+from fpt4.utils.sqpack import SqPack
+from ff_draw.main import FFDraw
+from .utils import ShellInject, struct2dict, dict2struct, Patch, Hack
+from .shell import MoveHookConfig
+if typing.TYPE_CHECKING:
+    from . import Hacks
+from ..Vars import vars
+from nylib.utils.imgui import ctx as imgui_ctx
+from ff_draw.main import FFDraw
+import os
+sq_pack = SqPack.get()
+
+
+if typing.TYPE_CHECKING:
+    from . import Hacks
+
+def make_shell(key='#__hacks_hooks__/move'):
+    f = pathlib.Path(__file__).parent / 'shell.py'
+    
+    return f.read_text('utf-8') + f'''
+def _install():
+    if hasattr(inject_server, {key!r}):
+        # return ctypes.addressof(getattr(inject_server, {key!r}).cfg)
+        getattr(inject_server, {key!r}).uninstall()
+        delattr(inject_server, {key!r})
+    hook = MoveHook(args[0])
+    setattr(inject_server, {key!r}, hook)
+    return ctypes.addressof(hook.cfg)
+__file__ = {str(f)!r}\n
+res = _install()
+''', str(f)
+
+
+
+
+class Speed:
+    key = '__hacks_hook__speed__'
+    # shell param = key, address1, address2
+    shell = '''
+def install_speed_hook():
+    import ctypes
+    if hasattr(inject_server, key):
+        hook1, hook2 = getattr(inject_server, key)
+        return ctypes.addressof(getattr(hook1, 'accel')), ctypes.addressof(getattr(hook1, 'speed'))
+    from nylib.hook import create_hook
+    accel = ctypes.c_ubyte(0)
+    speed = ctypes.c_float(1)
+
+    def on_update_speed(h, a):
+        current_speed = ctypes.c_float.from_address(a + 0x44)
+        if accel.value:
+            current_speed.value = 1e10
+        res = h.original(a)
+        if speed.value != 1:
+            current_speed.value *= speed.value
+        return res
+
+    def on_get_fly_speed(h, a):
+        return h.original(a) * speed.value
+
+    hook1 = create_hook(
+        address1, ctypes.c_void_p, [ctypes.c_size_t]
+    )(on_update_speed).install_and_enable()
+
+    hook2 = create_hook(
+        address2, ctypes.c_float, [ctypes.c_size_t]
+    )(on_get_fly_speed).install_and_enable()
+
+    setattr(hook1, 'accel', accel)
+    setattr(hook1, 'speed', speed)
+    setattr(inject_server, key, (hook1, hook2))
+    return ctypes.addressof(accel), ctypes.addressof(speed)
+res = install_speed_hook()
+'''
+
+    def __init__(self, main: 'Hacks'):
+        self.main = main
+        self.mem = main.main.mem
+        self.handle = self.mem.handle
+        self.hook_addr_1 = self.mem.scanner.find_address("40 53 48 83 EC ? 80 79 ? ? 48 8B D9 0F 84 ? ? ? ? 48 89 7C 24 ?")
+        self.hook_addr_2 = self.mem.scanner.find_address("40 ? 48 83 EC ? 48 8B ? 48 8B ? FF 90 ? ? ? ? 48 85 ? 75")
+        self.hook_addr_3 = self.mem.scanner.find_address("40 ? 48 83 EC ? 48 8B ? 48 8B ? FF 90 ? ? ? ? 48 85 ? 75")
+        self.max_accel_addr, self.speed_addr = self.mem.inject_handle.run(f'key = {repr(self.key)}; address1 = {hex(self.hook_addr_1)};address2 = {hex(self.hook_addr_2)};\n' + self.shell)
+        self.main.main.command.on_command['SirenPVPSpeed'].append(self.cmd_speed) 
+        self.preset_data = main.data.setdefault('combat/speed', {})
+        if 'max_accel' in self.preset_data:
+            self.max_accel = self.preset_data['max_accel']
+        else:
+            self.preset_data['max_accel'] = self.max_accel
+            self.main.storage.save()
+
+        if 'speed' in self.preset_data:
+            self.speed = self.preset_data['speed']
+        else:
+            self.preset_data['speed'] = self.speed
+            self.main.storage.save()
+        self.speed = 1.00
+    def cmd_speed(self, _, args):
+        if len(args) < 1: return
+        self.speed = float(args[0])
+    @property
+    def max_accel(self):
+        return bool(ny_mem.read_ubyte(self.handle, self.max_accel_addr))
+
+    @max_accel.setter
+    def max_accel(self, value):
+        ny_mem.write_ubyte(self.handle, self.max_accel_addr, int(value))
+        self.preset_data['max_accel'] = value
+        self.main.storage.save()
+
+    @property
+    def speed(self):
+        return ny_mem.read_float(self.handle, self.speed_addr)
+
+    @speed.setter
+    def speed(self, value):
+        ny_mem.write_float(self.handle, self.speed_addr, value)
+        self.preset_data['speed'] = value
+        self.main.storage.save()
+
+    def draw_panel(self):
+        changed, new_val = imgui.checkbox("最大加速度", self.max_accel)
+        if changed: self.max_accel = new_val
+        changed, new_val = imgui.slider_float("Speed", self.speed, 0, 3, "%.2f", .1)
+
+        imgui.same_line()
+        imgui.text(f"当前移速: {self.speed}")
+        if imgui.button("重置（默认值1）"):
+            self.speed = 1.00
+        imgui.same_line()
+        if imgui.button("1.05"):
+            self.speed = 1.05
+        imgui.same_line()
+        if imgui.button("1.10"):
+            self.speed = 1.10
+        if changed: self.speed = new_val
+
+
+
+class AfterImageAttack:
+    shell='''
+import ctypes
+from nylib.hook import create_hook
+from ctypes import c_int64, c_float, c_ubyte, c_uint,c_void_p,addressof
+def create_knock_hook():
+    if hasattr(inject_server, key):
+        return addressof(getattr(getattr(inject_server, key), 'val'))
+    val = c_float(0)
+    def knock_hook(hook, a1):
+        #print(f"get_hooked_message {str(a1)} ")
+        return a1#hook.original(a1)
+    hook = create_hook(actorLBAdress1, ctypes.c_uint64, [ctypes.c_int64])(knock_hook).install_and_enable()
+    setattr(hook, 'val', val)
+    setattr(inject_server, key, hook)
+    return addressof(val)
+res=create_knock_hook()
+'''
+
+    shell_uninstall = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+
+    shell_uninstall_mini = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+    def __init__(self, main: 'Hacks'):
+        self.show_imgui_window = True
+        self.main=main
+        self.mem = main.main.mem       
+        self.LBKnock=False
+        self.actorLBAdress1 = self.mem.scanner_v2.find_val("E8 * * * * C6 83 ?? ?? ?? ?? ?? EB ?? 0F 57 C9")
+        self.actorKnockKey1='__hacks_hook__AIAKnock__'
+        main.main.command.on_command['SirenPVPAIA'].append(self.cmd_AFK) 
+        
+    def cmd_AFK(self, _, args):
+        if len(args) < 1: return
+        if args[0] == "On":
+            self.actorKnockHook1=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey1}\'\nactorLBAdress1 = {self.actorLBAdress1[0]}\n' + self.shell)
+            self.LBKnock = True                            
+        if args[0] == "Off":
+            self.mem.inject_handle.run(f'key =\'{self.actorKnockKey1}\'\n' + self.shell_uninstall_mini) 
+            self.LBKnock = False
+
+
+    def draw_panel(self):
+
+
+        if imgui.button('LB可位移') :
+            if not self.LBKnock:
+                self.actorKnockHook1=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey1}\'\nactorLBAdress1 = {self.actorLBAdress1[0]}\n' + self.shell)
+            else:
+                self.mem.inject_handle.run(f'key =\'{self.actorKnockKey1}\'\n' + self.shell_uninstall_mini)   
+            self.LBKnock=not self.LBKnock
+        imgui.same_line()
+        imgui.text(f'LB可位移状态：{"开启" if self.LBKnock else "关闭"}') 
+
+
+
+
+class NoFallDamage:
+    def __init__(self, main: 'Hacks'):
+        self.main = main
+        self.mem = main.main.mem
+        self.handle = self.mem.handle
+        shell, script_file = make_shell()
+        
+
+        self.p_cfg = self.mem.inject_handle.run(shell, {
+            'on_send_flag': self.mem.scanner_v2.find_val("e8 * * * * 48 ? ? c6 05 ? ? ? ? ? 48")[0],
+            'on_send_normal_move': self.mem.scanner_v2.find_val("48 ? ? 45 ? ? 44 ? ? 41 ? ? ? e8 * * * *")[0],
+            'on_send_combat_move': self.mem.scanner_v2.find_val("45 ? ? 44 ? ? 48 ? ? 41 ? ? ? e8 * * * * eb")[0],
+        }, filename=script_file)
+
+        self.data = self.main.data.setdefault('move', {})
+        self.cfg = dict2struct(self.data.get('hook', {
+            'speed_percent': 1,
+        }), MoveHookConfig)
+        self.safe_mode = False
+    @property
+    def cfg(self):
+        return ny_mem.read_memory(self.handle, MoveHookConfig, self.p_cfg)
+
+    @cfg.setter
+    def cfg(self, value: MoveHookConfig):
+        ny_mem.write_memory(self.handle, self.p_cfg, value)
+
+    def draw_panel(self):
+        cfg = self.cfg
+        any_data_change = False
+        any_hook_change = False
+
+        if self.safe_mode is False:
+            cfg.y_adjust = 0
+            any_hook_change = True
+            self.safe_mode = True
+        change, new_val = imgui.checkbox('无视掉落伤害', cfg.no_fall_damage)
+        if change:
+            cfg.no_fall_damage = new_val
+            any_hook_change = True
+
+
+
+        y_adjust = cfg.y_adjust
+        change, new_val = imgui.slider_float('y_adjust', cfg.y_adjust, -20, 20, '%.2f')
+        if change:
+            cfg.y_adjust = new_val
+            any_hook_change = True
+
+        if imgui.button("恢复成0"):
+            cfg.y_adjust = 0
+            any_hook_change = True
+        imgui.same_line()
+        if imgui.button("遁地-7"):
+            cfg.y_adjust = -7
+            any_hook_change = True
+        imgui.same_line()
+        if imgui.button("遁地-5"):
+            cfg.y_adjust = -5  
+            any_hook_change = True
+
+
+        if any_hook_change:
+            self.cfg = cfg
+            self.data['hook'] = struct2dict(cfg)
+            any_data_change = True
+        if any_data_change:
+            self.main.storage.save()
+     
+class MovePermission:
+    def __init__(self, main: 'Hacks'):
+        self.main = main
+        self.mem = main.main.mem
+        self.handle = self.mem.handle
+        self.p_code, =self.mem.scanner_v2.find_val("e8 * * * * 84 ? 74 ? 48 c7 05")
+        self.inject = ShellInject(self.p_code,)
+        self.update_inject()
+        self.state = False
+
+    def update_inject(self):
+        self.inject.disable()
+        code = ''
+        p_ids = list(range(96, 100)) + [int(0x3E9), int(0x3EE), int(0x3EF), int(0x3F0)]
+        for p_id in p_ids:
+            code += f'cmp edx, {p_id};je ret1;'
+        code += 'jmp orig;ret1:mov al, 1;ret;orig:{taken};jmp {return_at:#X};'
+        self.inject.shell_code = code
+        self.inject.compile()
+
+    def draw_panel(self):
+        imgui.text("强制位移,会飞尸")
+        changed, new_val = imgui.checkbox("强制位移", self.inject.state)
+        if changed: self.inject.state = new_val
+        return changed, new_val
+    
+
+class MoveStatus:
+    def __init__(self, main: 'Hacks'):
+        data  = {
+            3023: False,
+            3024: False,
+        }
+        self.main = main
+        self.mem = main.main.mem
+        self.inject = ShellInject(self.mem.scanner_v2.find_address("0f 84 ? ? ? ? 42 ? ? ? ? ? 45") + 12)
+        self.data = {int(k): v for k, v in data.items()}
+        self.update_inject()
+        self.to_add_id = 0
+
+    def update_inject(self):
+        self.inject.disable()
+        to_check = [k for k, v in self.data.items() if v]
+        if not to_check: return
+        code = ''
+        for status_id in to_check:
+            code += f'cmp ecx, {status_id};je clearEcx;'
+        code += 'jmp orig;clearEcx:xor ecx, ecx;orig:{taken};jmp {return_at:#X};'
+        self.inject.shell_code = code
+        self.inject.compile()
+        self.inject.enable()
+
+    def draw_panel(self):
+        any_change = False
+        with imgui_ctx.ImguiId("MoveStatus"):
+            for status_id, v in list(self.data.items()):
+                changed, new_val = imgui.checkbox(f"##enable_{status_id}", v)
+                if changed:
+                    self.data[status_id] = new_val
+                    any_change = True
+                imgui.same_line()
+                try:
+                    imgui.text(f"{sq_pack.sheets.status_sheet[status_id][0]}#{status_id}")
+                except KeyError:
+                    imgui.text(f"Status#{status_id}")
+                imgui.same_line()
+                if imgui.button(f"X##remove_{status_id}"):
+                    self.data.pop(status_id)
+                    any_change = True
+            _, self.to_add_id = imgui.input_int("##add_id", self.to_add_id)
+            if self.to_add_id and self.to_add_id not in self.data:
+                try:
+                    btn_text = f"add {sq_pack.sheets.status_sheet[self.to_add_id][0]}"
+                except KeyError:
+                    pass
+                else:
+                    if imgui.button(btn_text):
+                        self.data[self.to_add_id] = True
+                        any_change = True
+        if any_change:
+            self.update_inject()
+        return any_change, self.data    
+    
+
+shell_uninstall_mini = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+class MiniHackUI:
+    shell='''
+from nylib.hook import create_hook
+from ctypes import c_int64, c_float, c_ubyte, c_uint,c_void_p,addressof
+def create_knock_hook():
+    if hasattr(inject_server, key):
+        return addressof(getattr(getattr(inject_server, key), 'val'))
+    val = c_float(0)
+    def knock_hook(hook, actor_ptr, angle, dis, knock_time, a5, a6):
+        #print(f"get_hooked_message {str(actor_ptr)} ")
+        return hook.original(actor_ptr, 0, 0, 0, a5, a6)
+    hook = create_hook(actorKnockAdress, c_int64, [c_int64, c_float, c_float, c_int64, c_ubyte, c_uint])(knock_hook).install_and_enable()
+    setattr(hook, 'val', val)
+    setattr(inject_server, key, hook)
+    return addressof(val)
+res=create_knock_hook()
+'''
+    shell_uninstall = '''
+def uninstall(key):
+    if hasattr(inject_server, key):
+        getattr(inject_server, key).uninstall()
+        delattr(inject_server, key)
+uninstall(key)
+'''
+    shell_uninstall_multi = '''
+def uninstall_multi(key):
+    if hasattr(inject_server, key):
+        for hook in getattr(inject_server, key):
+            hook.uninstall()
+        delattr(inject_server, key)
+'''
+    def __init__(self, main: 'Hacks'):
+        self.show_imgui_window = True
+        self.main = main
+        self.mem = main.main.mem
+        self.handle = self.mem.handle
+        
+        self.antiKnock=False
+        self.actorKnockAdress = self.mem.scanner.find_address("48 8B C4 48 89 70 ? 57 48 81 EC ? ? ? ? 0F 29 70 ? 0F 28 C1")
+        self.actorKnockKey='__hacks_hook__actorKnock__'
+        main.main.command.on_command['SirenPVPAKA'].append(self.cmd_AFK) 
+        
+    def cmd_AFK(self, _, args):
+        if len(args) < 1: return
+        if args[0] == "On":
+            self.actorKnockHook=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey}\'\nactorKnockAdress = {self.actorKnockAdress}\n' + self.shell)
+            self.antiKnock = True                            
+        if args[0] == "Off":
+            self.mem.inject_handle.run(f'key =\'{self.actorKnockKey}\'\n' + shell_uninstall_mini) 
+            self.antiKnock = False
+
+
+    def draw_panel(self):
+
+
+        if imgui.button('防击退') :
+            if not self.antiKnock:
+                self.actorKnockHook=self.mem.inject_handle.run(f'key=\'{self.actorKnockKey}\'\nactorKnockAdress = {self.actorKnockAdress}\n' + self.shell)
+            else:
+                self.mem.inject_handle.run(f'key =\'{self.actorKnockKey}\'\n' + shell_uninstall_mini)   
+            self.antiKnock=not self.antiKnock
+        imgui.same_line()
+        imgui.text(f'防击退状态：{"开启" if self.antiKnock else "关闭"}')  
+
+
+tp_true = False
+positions = []  
+mapname = ""  
+maps = []
+clicked_coordinate = None
+from pynput import keyboard
+class MiniHackTP:
+
+
+    def __init__(self, main):
+        #super().__init__(main)
+        #self.print_name = self.data.setdefault('print_name', True)
+        self.show_imgui_window = True
+        self.main= main
+        self.mem = main.main.mem  #combat.mem
+        self.me= self.main.mem.mem.actor_table.me        
+        self.territory = ''
+        self.collapsed_states = {}
+        main.main.command.on_command['SirenPVPTP'].append(self.cmd_tp)         
+        main.main.command.on_command['SirenPVPTPMo'].append(self.cmd_tp2)
+        main.main.command.on_command['SirenPVPTPFly'].append(self.fly_tp)
+        self.tp=False
+        self.tid = -1
+        self.me_pos_temp = None
+        self.coordinates_data = {}
+        self.selected_map_id_index = 0  # Initialize with an integer
+        self.selected_coordinate_index = 0  # Initialize the coordinate index
+        self.wait_to_teleport = False
+        self.still_hook_y = False
+        self.vfall = False
+        self.vfall_enable = False
+        self.temp_note = ""
+        file_path = r'.\\plugins\\SIREN2\\warp_list.json'
+        
+        # 检查文件是否存在，如果不存在，则初始化坐标数据为一个空字典
+        if not os.path.exists(file_path):
+            self.coordinates_data = {}   
+            with open(file_path, 'w', encoding='utf-8') as file:
+                json.dump(self.coordinates_data, file, indent=2)                 
+    def load_coordinates(self):
+        with open(r'.\\plugins\\SIREN2\\warp_list.json', 'r', encoding='utf-8') as file:
+            self.coordinates_data = json.load(file)
+
+    def delete_coordinate(self, map_id, coordinate_index):
+        """从 JSON 数据中删除指定的坐标条目"""
+        if map_id in self.coordinates_data and 0 <= coordinate_index < len(self.coordinates_data[map_id]):
+            # 删除指定索引的坐标
+            del self.coordinates_data[map_id][coordinate_index]
+            # 如果此地图ID下没有更多坐标，可选择删除整个键
+            if not self.coordinates_data[map_id]:
+                del self.coordinates_data[map_id]
+            # 保存更新后的数据
+            file_path = r'.\\plugins\\SIREN2\\warp_list.json'
+            with open(file_path, 'w', encoding='utf-8') as file:
+                json.dump(self.coordinates_data, file, indent=2)
+            print(f"坐标已从地图 {map_id} 删除")
+        else:
+            print("未找到指定的地图 ID 或坐标索引超出范围")
+
+    def save_coordinates(self, map_id, coordinates, note):
+        
+        """向现有 JSON 数据中追加新的坐标和注释，并保存。如果文件不存在，则创建一个新文件。"""
+        # 定义文件路径
+        file_path = r'.\\plugins\\SIREN2\\warp_list.json'
+        if not os.path.exists(file_path):
+            self.coordinates_data = {}
+            with open(file_path, 'w', encoding='utf-8') as file:
+                json.dump(self.coordinates_data, file, indent=2)
+        else:
+            # 如果文件存在，从文件加载坐标数据
+            self.load_coordinates()
+        
+        # 如果 map_id 存在，则追加数据；如果不存在，则创建新项
+        if map_id in self.coordinates_data:
+            self.coordinates_data[map_id].append({"coordinates": coordinates, "note": note})
+        else:
+            self.coordinates_data[map_id] = [{"coordinates": coordinates, "note": note}]
+
+        # 将更新后的数据写回 JSON 文件
+        with open(file_path, 'w', encoding='utf-8') as file:
+            json.dump(self.coordinates_data, file, indent=2)
+
+        print(f"已保存新坐标到地图 {map_id}: {coordinates}, {note}")
+
+    def cmd_tp(self, _, args):
+        if len(args) < 1: return
+        coordinates = args[0]  
+        coordinate_list = coordinates.split(",")  # 使用逗号分割字符串
+        if len(coordinate_list) != 3:
+            print("输入格式错误，请使用 '111,111,111' 的格式输入坐标。")
+            return
+
+        try:
+            x = float(coordinate_list[0])
+            z = float(coordinate_list[1])
+            y = float(coordinate_list[2])
+        except ValueError:
+            print("输入格式错误，请使用数字表示坐标。")
+            return
+
+        ooPos = glm.vec3(x, z, y)  # 将坐标转换为浮点数，并传递给 glm.vec3 函数
+
+     
+        self.testPos(ooPos)
+    def cmd_tp2(self, _, args):
+        if len(args) < 1: return
+        if not (pos := self.mem.ray_cast.cursor_to_world()):
+            return self.logger.warning('cursor_to_world failed')
+        print(pos)     
+        self.testPos(pos)
+    def fly_tp(self, _, args):  
+        self.flyPos(self.me.pos + glm.vec3(0, 1, 0))
+
+    def draw_panel(self):
+        #if not self.show_imgui_window: return
+        self.me = self.main.mem.mem.actor_table.me
+        if self.me is not None:
+            target_id = self.me.target_id             
+        if imgui.button('tp开关') :
+            self.tp=not self.tp
+
+        imgui.same_line()
+        imgui.text(f'TP开关状态：{"开启" if self.tp else "关闭"}')      
+        
+        imgui.same_line()
+        if imgui.button('Load Position'):
+            self.load_coordinates()
+        imgui.same_line()
+        if imgui.button('糖豆人'):
+            self.vfall_enable = not self.vfall_enable
+        tid = self.mem.territory_info.territory_id
+        imgui.text(str(tid))
+        if tid != self.tid:
+            self.tid = tid
+            try:
+                territory = self.mem.main.sq_pack.sheets.territory_type_sheet[tid]
+            except KeyError:
+                territory = 'N/A'
+            else:
+                self.territory = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'   
+        imgui.same_line()
+        imgui.text(str(self.territory))
+        if tid in [1165, 1197]:
+            self.tp = False
+        if tid not in [1165, 1197]:
+            if self.coordinates_data:
+                #map_ids = list(self.coordinates_data.keys())
+                map_ids = list(self.coordinates_data.keys())
+                # 构建包含地图 ID 和地理区域信息的列表
+                map_id_with_territory = []
+                for map_id in map_ids:
+                    try:
+                        territory = self.mem.main.sq_pack.sheets.territory_type_sheet[int(map_id)]
+                        territory_description = f'{territory.region.text_sgl}-{territory.sub_region.text_sgl}-{territory.area.text_sgl}'
+                    except KeyError:
+                        territory_description = 'N/A'
+                    map_id_with_territory.append(f"{map_id} - {territory_description}")            
+                #clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_ids)
+                clicked, selected_map_id_index = imgui.combo("地图ID", self.selected_map_id_index, map_id_with_territory)
+                if clicked:
+                    self.selected_map_id_index = selected_map_id_index
+
+                if self.selected_map_id_index is not None:
+                    selected_map_id = map_ids[self.selected_map_id_index]
+                    coordinates = self.coordinates_data[selected_map_id]
+                    coordinate_items = [f"{coord['coordinates']} - {coord['note']}" for coord in coordinates]
+                    clicked, selected_coordinate_index = imgui.combo("选择TP节点", self.selected_coordinate_index, coordinate_items)
+                    
+                    if clicked:
+                        self.selected_coordinate_index = selected_coordinate_index
+
+                    if imgui.button("跨界传送"):
+                        self.me_pos_temp = self.me.pos
+                        self.wait_to_teleport = True
+                        self.mem.do_text_command(f'/#SirenPVPSpeed 0')
+                        self.mem.do_text_command(f'/e 移速已为0 <se.11><se.11><se.11><se.11>')
+                        coord = coordinates[self.selected_coordinate_index]['coordinates']
+                        self.mem.do_text_command(f'/e 你的TP位置{coord}')
+                        self.mem.do_text_command(f'/e 跨界传送TP移速被锁为0后请进行对应地图区域传送。') 
+                        self.mem.do_text_command(f'/e 只要是会被服务器移动的都可以使用这个TP(死亡复活)') 
+
+                    if self.wait_to_teleport is True:
+                        imgui.same_line()
+                        if imgui.button("取消"):
+                            self.me_pos_temp = self.me.pos
+                            self.wait_to_teleport = False  
+                            self.mem.do_text_command(f'/#SirenPVPSpeed 1')                
+
+                        #self.teleport_to_coordinate(coord)
+                        #print(coord)
+                        if self.me.pos != self.me_pos_temp:
+                            imgui.text(f'准备传送')
+                            imgui.same_line()
+                            imgui.text(f'{selected_map_id}==>{self.tid}')
+                            coord = coordinates[self.selected_coordinate_index]['coordinates']
+                            if str(selected_map_id) != str(self.tid):
+                                self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
+                                self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                                self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
+                            else:
+                                self.teleport_to_coordinate(coord)
+                            #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                            #self.mem.do_text_command(f'/e 移速恢复')                        
+                            self.wait_to_teleport = False
+                    imgui.same_line()
+            if imgui.button("保存新坐标"):
+                self.save_coordinates(str(tid), f"{self.me.pos.x:.3f},{self.me.pos.y:.3f},{self.me.pos.z:.3f}", self.temp_note) 
+            imgui.same_line()
+            if imgui.button("删除选中坐标"):
+                if self.selected_map_id_index is not None and self.selected_coordinate_index is not None:
+                    selected_map_id = list(self.coordinates_data.keys())[self.selected_map_id_index]
+                    self.delete_coordinate(selected_map_id, self.selected_coordinate_index)
+                    imgui.same_line()
+                    imgui.text("选中坐标已删除！")
+                    # 删除坐标后重置选中的坐标索引
+                    self.selected_coordinate_index = 0
+                    self.load_coordinates()  # 重新加载坐标数据更新 GUI                    
+            imgui.text("添加新坐标:")
+            _, self.temp_note = imgui.input_text("注释:", str(self.temp_note), 100)  
+        if target_id is not None:
+            self.target_id = self.main.mem.mem.actor_table.get_actor_by_id(target_id)
+            if self.target_id is not None:
+                #if imgui.button("将目标tp到我这且+10(需要安装Pen)"):            
+                #    ny_mem.write_bytes(self.target_id.handle, self.target_id.address + self.target_id.offsets.pos, (self.me.pos + glm.vec3(0, 10, 0)).to_bytes())
+                #    self.mem.do_text_command(f'/penumbra redraw target')
+                #imgui.same_line()
+                if imgui.button("将目标tp到我这(需要安装Pen)"):            
+                    ny_mem.write_bytes(self.target_id.handle, self.target_id.address + self.target_id.offsets.pos, self.me.pos.to_bytes())
+                    self.mem.do_text_command(f'/penumbra redraw target')  
+
+  
+        imgui.text(f'你自己最好知道你在干什么！') 
+        if self.me is not None:
+            for status_id, param, remain, source_id in self.me.status:
+                if status_id == 3704:
+                    imgui.text(str(param))
+            imgui.text(f'{self.me.pos}！') 
+        
+        
+    def addTeleportButton(self, coordinates):
+        if imgui.button("传送"):
+            ooPos = glm.vec3(coordinates)
+            self.testPos(ooPos)
+    def CommandTeleport(self, coordinates):
+        ooPos = glm.vec3(coordinates)
+        self.testPos(ooPos)
+    def CommandTeleport2(self, coordinates):
+        ooPos = coordinates
+        self.testPos(ooPos)        
+    def testPos(self, ooPos):
+        #if self.vfall_enable is True:
+        #self.keyboard.press(Key.space)
+        #self.keyboard.release(Key.space)        
+        if self.tp:
+            ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
+    def flyPos(self, ooPos):     
+        ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
+            
+    def writePos(self,toPos:glm.vec3)  :    
+        if self.tp:    
+            ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, toPos.to_bytes())
+    def moveoo(self,value=1):
+        ooPos=glm.vec3(3.71959,-7,-1.17685 )  
+        self.testPos(ooPos)       
+    def movefly(self):
+        ooPos= self.me.pos + glm.vec3(0, 1, 0)
+        ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
+    def teleport_to_coordinate(self, coordinates):
+        self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+        self.mem.do_text_command(f'/e TP成功，移速已恢复 <se.4><se.4><se.4><se.4>')
+        self.wait_to_teleport = False
+        x, y, z = map(float, coordinates.split(','))
+        pos = glm.vec3(x, y, z)
+        self.testPos(pos)
+    
+    def getPos(self):
+        return bytes(ny_mem.read_bytes(self.me.handle, self.me.address + self.me.offsets.pos, 0xc))
+
+    def update(self, main):
+        meAdress=self.me.address + self.me.offsets.pos
