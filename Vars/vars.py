@@ -25,6 +25,8 @@ now_job = 0#当前职业
 actionrange = 0#长臂猿距离
 
 jindie = True
+
+gcd_remain_2261 = 0
 ########################################
 
 
