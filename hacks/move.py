@@ -471,6 +471,7 @@ class MiniHackTP:
         self.vfall = False
         self.vfall_enable = False
         self.temp_note = ""
+        self.target_id = None
         file_path = r'.\\plugins\\SIREN2\\warp_list.json'
         
         # 检查文件是否存在，如果不存在，则初始化坐标数据为一个空字典
@@ -555,10 +556,10 @@ class MiniHackTP:
     def draw_panel(self):
         #if not self.show_imgui_window: return
         self.me = self.main.mem.mem.actor_table.me
-        if self.me is not None:
-            target_id = self.me.target_id             
-        if imgui.button('tp开关') :
-            self.tp=not self.tp
+        
+        if self.me is not None:self.target_id = self.me.target_id
+        else:self.target_id = None
+        if imgui.button('tp开关') :self.tp=not self.tp
 
         imgui.same_line()
         imgui.text(f'TP开关状态：{"开启" if self.tp else "关闭"}')      
@@ -566,9 +567,6 @@ class MiniHackTP:
         imgui.same_line()
         if imgui.button('Load Position'):
             self.load_coordinates()
-        imgui.same_line()
-        if imgui.button('糖豆人'):
-            self.vfall_enable = not self.vfall_enable
         tid = self.mem.territory_info.territory_id
         imgui.text(str(tid))
         if tid != self.tid:
@@ -658,9 +656,9 @@ class MiniHackTP:
                     self.load_coordinates()  # 重新加载坐标数据更新 GUI                    
             imgui.text("添加新坐标:")
             _, self.temp_note = imgui.input_text("注释:", str(self.temp_note), 100)  
-        if target_id is not None:
-            self.target_id = self.main.mem.mem.actor_table.get_actor_by_id(target_id)
-            if self.target_id is not None:
+        if self.target_id is not None and self.me is not None:
+            target_id = self.main.mem.mem.actor_table.get_actor_by_id(self.target_id)
+            if target_id is not None:
                 #if imgui.button("将目标tp到我这且+10(需要安装Pen)"):            
                 #    ny_mem.write_bytes(self.target_id.handle, self.target_id.address + self.target_id.offsets.pos, (self.me.pos + glm.vec3(0, 10, 0)).to_bytes())
                 #    self.mem.do_text_command(f'/penumbra redraw target')
