@@ -627,20 +627,21 @@ class MiniHackTP:
 
                         #self.teleport_to_coordinate(coord)
                         #print(coord)
-                        if self.me.pos != self.me_pos_temp:
-                            imgui.text(f'准备传送')
-                            imgui.same_line()
-                            imgui.text(f'{selected_map_id}==>{self.tid}')
-                            coord = coordinates[self.selected_coordinate_index]['coordinates']
-                            if str(selected_map_id) != str(self.tid):
-                                self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
-                                self.mem.do_text_command(f'/#SirenPVPSpeed 1')
-                                self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
-                            else:
-                                self.teleport_to_coordinate(coord)
-                            #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
-                            #self.mem.do_text_command(f'/e 移速恢复')                        
-                            self.wait_to_teleport = False
+                        if self.me is not None:
+                            if self.me.pos!= self.me_pos_temp:
+                                imgui.text(f'准备传送')
+                                imgui.same_line()
+                                imgui.text(f'{selected_map_id}==>{self.tid}')
+                                coord = coordinates[self.selected_coordinate_index]['coordinates']
+                                if str(selected_map_id) != str(self.tid):
+                                    self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
+                                    self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                                    self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
+                                else:
+                                    self.teleport_to_coordinate(coord)
+                                #self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                                #self.mem.do_text_command(f'/e 移速恢复')                        
+                                self.wait_to_teleport = False
                     imgui.same_line()
             if imgui.button("保存新坐标"):
                 self.save_coordinates(str(tid), f"{self.me.pos.x:.3f},{self.me.pos.y:.3f},{self.me.pos.z:.3f}", self.temp_note) 
