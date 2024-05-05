@@ -20,8 +20,8 @@ from .shell2 import CombatHookConfig #line:21
 if typing .TYPE_CHECKING :#line:23
     from .import Hacks #line:24
 def make_shell (key ='#__hacks_hooks__/actionrange'):#line:27
-    O000OO0O0OO0OOO0O =pathlib .Path (__file__ ).parent /'shell2.py'#line:28
-    return O000OO0O0OO0OOO0O .read_text ('utf-8')+f'''
+    OOOO00000O0OO00OO =pathlib .Path (__file__ ).parent /'shell2.py'#line:28
+    return OOOO00000O0OO00OO .read_text ('utf-8')+f'''
 def _install():
     if hasattr(inject_server, {key!r}):
         # return ctypes.addressof(getattr(inject_server, {key!r}).cfg)
@@ -31,7 +31,7 @@ def _install():
     setattr(inject_server, {key!r}, hook)
     return ctypes.addressof(hook.cfg)
 res = _install()
-''',str (O000OO0O0OO0OOO0O )#line:39
+''',str (OOOO00000O0OO00OO )#line:39
 shell_uninstall ='''
 def uninstall(key):
     if hasattr(inject_server, key):
@@ -48,12 +48,12 @@ class CurrentMinMax :#line:52
 class Cam :#line:73
     def __init__ (self ,main :'Hacks'):#line:74
         self .main =main #line:75
-        OOOO00O00OO0OOOOO =main .main .mem #line:76
-        self .handle =OOOO00O00OO0OOOOO .handle #line:77
-        self ._cam_base ,=OOOO00O00OO0OOOOO .scanner .find_point ("48 8D 0D * * * * E8 ? ? ? ? 48 83 3D ? ? ? ? ? 74 ? E8 ? ? ? ?")#line:78
-        self ._zoom_offset ,=OOOO00O00OO0OOOOO .scanner .find_val ("F3 0F ? ? * * * * 48 8B ? ? ? ? ? 48 85 ? 74 ? F3 0F ? ? ? ? ? ? 48 83 C1")#line:79
-        self ._fov_offset ,=OOOO00O00OO0OOOOO .scanner .find_val ("F3 0F ? ? * * * * 0F 2F ? ? ? ? ? 72 ? F3 0F ? ? ? ? ? ? 48 8B")#line:80
-        self ._angle_offset ,=OOOO00O00OO0OOOOO .scanner .find_val ("F3 0F 10 B3 * * * * 48 8D ? ? ? F3 44 ? ? ? ? ? ? ? F3 44")#line:81
+        O0OO0O000OO00OO0O =main .main .mem #line:76
+        self .handle =O0OO0O000OO00OO0O .handle #line:77
+        self ._cam_base ,=O0OO0O000OO00OO0O .scanner .find_point ("48 8D 0D * * * * E8 ? ? ? ? 48 83 3D ? ? ? ? ? 74 ? E8 ? ? ? ?")#line:78
+        self ._zoom_offset ,=O0OO0O000OO00OO0O .scanner .find_val ("F3 0F ? ? * * * * 48 8B ? ? ? ? ? 48 85 ? 74 ? F3 0F ? ? ? ? ? ? 48 83 C1")#line:79
+        self ._fov_offset ,=O0OO0O000OO00OO0O .scanner .find_val ("F3 0F ? ? * * * * 0F 2F ? ? ? ? ? 72 ? F3 0F ? ? ? ? ? ? 48 8B")#line:80
+        self ._angle_offset ,=O0OO0O000OO00OO0O .scanner .find_val ("F3 0F 10 B3 * * * * 48 8D ? ? ? F3 44 ? ? ? ? ? ? ? F3 44")#line:81
         self .preset_data =main .data .setdefault ('cam_preset',{})#line:82
         if 'zoom'in self .preset_data :#line:83
             self .cam_zoom .min ,self .cam_zoom .max =self .preset_data ['zoom']['min'],self .preset_data ['zoom']['max']#line:84
@@ -91,22 +91,22 @@ class Cam :#line:73
         imgui .text ("Max")#line:123
         imgui .next_column ()#line:124
         imgui .separator ()#line:125
-        OOOOOO0O00000OO0O =self .cam_zoom #line:127
+        O0000000OOOOOO0O0 =self .cam_zoom #line:127
         imgui .text ("Zoom")#line:128
         imgui .next_column ()#line:129
-        OO000OO00O0OOO00O ,O0000OOOOO0OOO0O0 =imgui .drag_float ("##zoom_current",OOOOOO0O00000OO0O .current ,0.1 ,OOOOOO0O00000OO0O .min ,OOOOOO0O00000OO0O .max ,"%.1f")#line:130
-        if OO000OO00O0OOO00O :OOOOOO0O00000OO0O .current =O0000OOOOO0OOO0O0 #line:131
+        O00OOO000O0000OOO ,O0OOOOO00O000O0OO =imgui .drag_float ("##zoom_current",O0000000OOOOOO0O0 .current ,0.1 ,O0000000OOOOOO0O0 .min ,O0000000OOOOOO0O0 .max ,"%.1f")#line:130
+        if O00OOO000O0000OOO :O0000000OOOOOO0O0 .current =O0OOOOO00O000O0OO #line:131
         imgui .next_column ()#line:132
-        OO000OO00O0OOO00O ,O0O0OOO0OO000O0OO =imgui .input_float ('##zoom_min',OOOOOO0O00000OO0O .min ,.5 ,5 ,"%.1f")#line:133
-        if OO000OO00O0OOO00O :#line:134
-            OOOOOO0O00000OO0O .min =O0O0OOO0OO000O0OO #line:135
-            self .preset_data ['zoom']['min']=O0O0OOO0OO000O0OO #line:136
+        O00OOO000O0000OOO ,O0O0O0OOOO0OO0OOO =imgui .input_float ('##zoom_min',O0000000OOOOOO0O0 .min ,.5 ,5 ,"%.1f")#line:133
+        if O00OOO000O0000OOO :#line:134
+            O0000000OOOOOO0O0 .min =O0O0O0OOOO0OO0OOO #line:135
+            self .preset_data ['zoom']['min']=O0O0O0OOOO0OO0OOO #line:136
             self .main .storage .save ()#line:137
         imgui .next_column ()#line:138
-        OO000OO00O0OOO00O ,O00O0OO0OOOOO0OOO =imgui .input_float ('##zoom_max',OOOOOO0O00000OO0O .max ,.5 ,5 ,"%.1f")#line:139
-        if OO000OO00O0OOO00O :#line:140
-            OOOOOO0O00000OO0O .max =O00O0OO0OOOOO0OOO #line:141
-            self .preset_data ['zoom']['max']=O00O0OO0OOOOO0OOO #line:142
+        O00OOO000O0000OOO ,OO000OOOOOOO000OO =imgui .input_float ('##zoom_max',O0000000OOOOOO0O0 .max ,.5 ,5 ,"%.1f")#line:139
+        if O00OOO000O0000OOO :#line:140
+            O0000000OOOOOO0O0 .max =OO000OOOOOOO000OO #line:141
+            self .preset_data ['zoom']['max']=OO000OOOOOOO000OO #line:142
             self .main .storage .save ()#line:143
         imgui .next_column ()#line:144
         imgui .columns (1 )#line:147
@@ -161,11 +161,11 @@ uninstall(key)
 class Afk :#line:208
     def __init__ (self ,main :'Hacks'):#line:209
         self .main =main #line:210
-        O00OOOOO0OO0O0O00 =main .main .mem #line:211
-        self .handle =O00OOOOO0OO0O0O00 .handle #line:212
-        self .write_1 =O00OOOOO0OO0O0O00 .scanner .find_address ("75 ? 0F 28 C7 0F 28 CF")#line:213
-        self .write_2 =O00OOOOO0OO0O0O00 .scanner .find_address ("F3 0F 11 51 ? 33 C9")#line:214
-        self .write_2_original =O00OOOOO0OO0O0O00 .scanner .get_original_text (self .write_2 ,5 )#line:215
+        OO000OO00O0OO0000 =main .main .mem #line:211
+        self .handle =OO000OO00O0OO0000 .handle #line:212
+        self .write_1 =OO000OO00O0OO0000 .scanner .find_address ("75 ? 0F 28 C7 0F 28 CF")#line:213
+        self .write_2 =OO000OO00O0OO0000 .scanner .find_address ("F3 0F 11 51 ? 33 C9")#line:214
+        self .write_2_original =OO000OO00O0OO0000 .scanner .get_original_text (self .write_2 ,5 )#line:215
         self .preset_data =main .data .setdefault ('afk',{})#line:216
         if 'enabled'in self .preset_data :#line:217
             self .is_enabled =self .preset_data ['enabled']#line:218
@@ -183,16 +183,16 @@ class Afk :#line:208
         self .preset_data ['enabled']=value #line:233
         self .main .storage .save ()#line:234
     def draw_panel (self ):#line:236
-        OO0O0OOO0OO0O00O0 ,O0O00OO00OO0OO00O =imgui .checkbox ("Enabled 挂机防踢",self .is_enabled )#line:237
-        if OO0O0OOO0OO0O00O0 :#line:238
-            self .is_enabled =O0O00OO00OO0OO00O #line:239
+        O000OOO00OO00O0OO ,OO0000O0O0OOO00O0 =imgui .checkbox ("Enabled 挂机防踢",self .is_enabled )#line:237
+        if O000OOO00OO00O0OO :#line:238
+            self .is_enabled =OO0000O0O0OOO00O0 #line:239
 class ShopQuantity :#line:244
     def __init__ (self ,combat :'Hacks'):#line:245
-        O0OO000OO000OOO00 =combat .main .mem #line:246
-        self .handle =O0OO000OO000OOO00 .handle #line:247
-        self .p_code =O0OO000OO000OOO00 .scanner_v2 .find_address ("41 ?? 63 00 00 00 41 ?? ?? 44 ?? ?? ?? 41")+0x2 #line:248
-        self .p_code5 =O0OO000OO000OOO00 .scanner_v2 .find_address ('83 ? ? 76 ? bb ? ? ? ? eb')+0x2 #line:249
-        self .p_code6 =O0OO000OO000OOO00 .scanner_v2 .find_address ('bb ? ? ? ? eb ? 85 ? 41 ? ? ?')+0x1 #line:251
+        O0O00OO0O00000O0O =combat .main .mem #line:246
+        self .handle =O0O00OO0O00000O0O .handle #line:247
+        self .p_code =O0O00OO0O00000O0O .scanner_v2 .find_address ("41 ?? 63 00 00 00 41 ?? ?? 44 ?? ?? ?? 41")+0x2 #line:248
+        self .p_code5 =O0O00OO0O00000O0O .scanner_v2 .find_address ('83 ? ? 76 ? bb ? ? ? ? eb')+0x2 #line:249
+        self .p_code6 =O0O00OO0O00000O0O .scanner_v2 .find_address ('bb ? ? ? ? eb ? 85 ? 41 ? ? ?')+0x1 #line:251
         self .p_code1 =int ("7FF7F15626FC",16 )#line:252
         self .p_code2 =int ("7FF7F1562700",16 )#line:253
         self .p_code3 =int ("7FF7F1562704",16 )#line:254
@@ -207,28 +207,28 @@ class ShopQuantity :#line:244
         self ._state =False #line:265
     @property #line:267
     def state (self ):#line:268
-        OOO00O000OO00000O =ny_mem .read_uint (self .handle ,self .p_code )#line:269
-        return OOO00O000OO00000O ==999 #line:270
+        OOOO0OO00000O0OO0 =ny_mem .read_uint (self .handle ,self .p_code )#line:269
+        return OOOO0OO00000O0OO0 ==999 #line:270
     @state .setter #line:272
     def state (self ,value ):#line:273
-        O00OOOOO0O0O00O00 =999 if value else 99 #line:274
-        O0O00O0O00OOOOO00 =255 if value else 99 #line:275
-        ny_mem .write_uint (self .handle ,self .p_code ,O00OOOOO0O0O00O00 )#line:276
-        ny_mem .write_ubyte (self .handle ,self .p_code6 ,O0O00O0O00OOOOO00 )#line:277
+        OOO0OO0OOOO0O0000 =999 if value else 99 #line:274
+        O0O0OOOOOO00O000O =255 if value else 99 #line:275
+        ny_mem .write_uint (self .handle ,self .p_code ,OOO0OO0OOOO0O0000 )#line:276
+        ny_mem .write_ubyte (self .handle ,self .p_code6 ,O0O0OOOOOO00O000O )#line:277
         self ._state =value #line:278
     def draw_panel (self ):#line:280
         imgui .text (f'当前购买最高{self.raw}')#line:281
-        OO0O0O00OOO00OO0O ,OO0O00O00OO0OO000 =imgui .checkbox ("去除购买限制",self .state )#line:282
+        OO00OO0OOO0000O00 ,OOOO000OOO00O0O0O =imgui .checkbox ("去除购买限制",self .state )#line:282
         imgui .text ('部队战绩交易量最高为255,交易数量突破99都属于异常封包 \n请酌情开启')#line:283
-        if OO0O0O00OOO00OO0O :#line:284
-            self .state =OO0O00O00OO0OO000 #line:286
-        return OO0O0O00OOO00OO0O ,OO0O00O00OO0OO000 #line:287
+        if OO00OO0OOO0000O00 :#line:284
+            self .state =OOOO000OOO00O0O0O #line:286
+        return OO00OO0OOO0000O00 ,OOOO000OOO00O0O0O #line:287
     def draw_2 (self ):#line:289
         imgui .text ("FAKE CN6.51 ONLY")#line:290
-        _O0OOOO000OOOO0OOO ,self .raw1 =imgui .input_text ("参战次数:",str (self .raw1 ),100 )#line:291
-        _O0OOOO000OOOO0OOO ,self .raw2 =imgui .input_text ("冠军次数:",str (self .raw2 ),100 )#line:292
-        _O0OOOO000OOOO0OOO ,self .raw3 =imgui .input_text ("亚军次数:",str (self .raw3 ),100 )#line:293
-        _O0OOOO000OOOO0OOO ,self .raw4 =imgui .input_text ("季军次数:",str (self .raw4 ),100 )#line:294
+        _OO00000O00000000O ,self .raw1 =imgui .input_text ("参战次数:",str (self .raw1 ),100 )#line:291
+        _OO00000O00000000O ,self .raw2 =imgui .input_text ("冠军次数:",str (self .raw2 ),100 )#line:292
+        _OO00000O00000000O ,self .raw3 =imgui .input_text ("亚军次数:",str (self .raw3 ),100 )#line:293
+        _OO00000O00000000O ,self .raw4 =imgui .input_text ("季军次数:",str (self .raw4 ),100 )#line:294
         if imgui .button ("确定"):#line:295
             ny_mem .write_uint (self .handle ,self .p_code1 ,int (self .raw1 ))#line:296
             ny_mem .write_uint (self .handle ,self .p_code2 ,int (self .raw2 ))#line:297
@@ -236,81 +236,88 @@ class ShopQuantity :#line:244
             ny_mem .write_uint (self .handle ,self .p_code4 ,int (self .raw4 ))#line:299
 class NoActionMove :#line:301
     def __init__ (self ,combat :'Hacks'):#line:302
-        O0O0O0O0OOOOOO0O0 =combat .main .mem #line:303
-        self .handle =O0O0O0O0OOOOOO0O0 .handle #line:304
-        self .p_code =O0O0O0O0OOOOOO0O0 .scanner .find_address ("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B F1 0F 29 74 24 ? 48 8B 89 ? ? ? ? 0F 28 F3")#line:305
+        OO000OOO0O0O000O0 =combat .main .mem #line:303
+        self .handle =OO000OOO0O0O000O0 .handle #line:304
+        self .p_code =OO000OOO0O0O000O0 .scanner .find_address ("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B F1 0F 29 74 24 ? 48 8B 89 ? ? ? ? 0F 28 F3")#line:305
         self .state =False #line:306
-    @property #line:308
-    def state (self ):#line:309
-        return ny_mem .read_ubyte (self .handle ,self .p_code )==0xc3 #line:310
-    @state .setter #line:312
-    def state (self ,value ):#line:313
-        ny_mem .write_ubyte (self .handle ,self .p_code ,0xc3 if value else 0x48 )#line:314
-    def draw_panel (self ):#line:316
-        OOOO0O00000000O00 ,OO00OO00O0O0OO0O0 =imgui .checkbox ("无突进",self .state )#line:317
-        if OOOO0O00000000O00 :self .state =OO00OO00O0O0OO0O0 #line:318
-        return OOOO0O00000000O00 ,OO00OO00O0O0OO0O0 #line:319
-class AniLock :#line:322
-    def __init__ (self ,main :'Hacks'):#line:323
-        self .main =main #line:324
-        O00O0O0O00O000OOO =main .main .mem #line:325
-        self .handle =O00O0O0O00O000OOO .handle #line:326
-        self .local_lock =O00O0O0O00O000OOO .scanner .find_address ("41 C7 45 08 ? ? ? ? EB ? 41 C7 45 08")#line:327
-        if struct .unpack ('f',O00O0O0O00O000OOO .scanner .get_original_text (self .local_lock +4 ,4 ))==.5 :#line:328
-            self .normal_lock_addr =self .local_lock +4 #line:329
-            self .seal_lock_addr =self .local_lock +14 #line:330
-        else :#line:331
-            self .normal_lock_addr =self .local_lock +14 #line:332
-            self .seal_lock_addr =self .local_lock +4 #line:333
-        self .original_seal_val ,=struct .unpack ('f',O00O0O0O00O000OOO .scanner .get_original_text (self .seal_lock_addr ,4 ))#line:334
-        self .original_normal_val ,=struct .unpack ('f',O00O0O0O00O000OOO .scanner .get_original_text (self .normal_lock_addr ,4 ))#line:335
-        self .main .logger .debug (f'ani_lock/local_lock: {self.normal_lock_addr:X} (original: {self.original_normal_val:.2f})')#line:337
-        self .main .logger .debug (f'ani_lock/seal_lock: {self.seal_lock_addr:X} (original: {self.original_seal_val:.2f})')#line:338
-        self .sync_normal_addr =O00O0O0O00O000OOO .scanner .find_address ("41 f6 44 24 ? ? 74 ? f3")+0xf #line:340
-        self .sync_normal_original =O00O0O0O00O000OOO .scanner .get_original_text (self .sync_normal_addr ,8 )#line:341
-        self .main .logger .debug (f'ani_lock/sync_normal: {self.sync_normal_addr:X}')#line:342
-        self .preset_data =main .data .setdefault ('anilock',{})#line:346
-        if 'state'in self .preset_data :#line:347
-            self .state =self .preset_data ['state']#line:348
-        else :#line:349
-            self .preset_data ['state']=self .state #line:350
-    def set_local (self ,val ):#line:352
-        if val ==-1 :#line:353
-            ny_mem .write_float (self .handle ,self .normal_lock_addr ,self .original_normal_val )#line:354
-            ny_mem .write_float (self .handle ,self .seal_lock_addr ,self .original_seal_val )#line:355
-        else :#line:356
-            ny_mem .write_float (self .handle ,self .normal_lock_addr ,min (val ,self .original_normal_val ))#line:357
-            ny_mem .write_float (self .handle ,self .seal_lock_addr ,min (val ,self .original_seal_val ))#line:358
-    def set_sync (self ,mode ):#line:360
-        if mode :#line:361
-            ny_mem .write_bytes (self .handle ,self .sync_normal_addr ,b'\x90'*8 )#line:362
-        else :#line:363
-            ny_mem .write_bytes (self .handle ,self .sync_normal_addr ,self .sync_normal_original )#line:364
-    @property #line:366
-    def state (self ):#line:367
-        if ny_mem .read_ubyte (self .handle ,self .sync_normal_addr )==0x90 :#line:368
-            return ny_mem .read_float (self .handle ,self .normal_lock_addr )#line:369
-        return -1 #line:370
-    @state .setter #line:372
-    def state (self ,value ):#line:373
-        self .set_local (value )#line:374
-        self .set_sync (value !=-1 )#line:375
-    def draw_panel (self ):#line:377
-        OOO00OO0OO0OOO0OO =self .state #line:378
-        imgui .text ("动画锁 建议0.2")#line:379
-        O0O00OOO0O0O00OO0 ,OOO0OO00OOO0OO0OO =imgui .checkbox ("##Enabled",OOO00OO0OO0OOO0OO !=-1 )#line:380
-        imgui .same_line ()#line:381
-        if O0O00OOO0O0O00OO0 :#line:382
-            if OOO00OO0OO0OOO0OO <0 :#line:383
-                self .state =.2 #line:384
-            else :#line:385
-                self .state =-1 #line:386
-        if OOO00OO0OO0OOO0OO !=-1 :#line:387
-            O0O00OOO0O0O00OO0 ,OOO0OO00OOO0OO0OO =imgui .slider_float ("##Value",OOO00OO0OO0OOO0OO ,0 ,.5 ,"%.2f",.01 )#line:388
-            if O0O00OOO0O0O00OO0 :#line:389
-                self .state =OOO0OO00OOO0OO0OO #line:390
-class GetRadius :#line:395
-    key ='__hacks_hook__get_radius__'#line:396
+        combat .main .command .on_command ['SIRENNoActionMove'].append (self .cmd_AFK )#line:307
+    @property #line:310
+    def state (self ):#line:311
+        return ny_mem .read_ubyte (self .handle ,self .p_code )==0xc3 #line:312
+    @state .setter #line:314
+    def state (self ,value ):#line:315
+        ny_mem .write_ubyte (self .handle ,self .p_code ,0xc3 if value else 0x48 )#line:316
+    def cmd_AFK (self ,_ ,args ):#line:318
+        if len (args )<1 :return #line:319
+        if args [0 ]=="On":#line:320
+            self .state =True #line:321
+        if args [0 ]=="Off":#line:322
+            self .state =False #line:323
+    def draw_panel (self ):#line:325
+        OO0OOOOOO00OO0000 ,O00OO00O0O0OO000O =imgui .checkbox ("无突进",self .state )#line:326
+        if OO0OOOOOO00OO0000 :self .state =O00OO00O0O0OO000O #line:327
+        return OO0OOOOOO00OO0000 ,O00OO00O0O0OO000O #line:328
+class AniLock :#line:331
+    def __init__ (self ,main :'Hacks'):#line:332
+        self .main =main #line:333
+        OO00OOOO00OO000O0 =main .main .mem #line:334
+        self .handle =OO00OOOO00OO000O0 .handle #line:335
+        self .local_lock =OO00OOOO00OO000O0 .scanner .find_address ("41 C7 45 08 ? ? ? ? EB ? 41 C7 45 08")#line:336
+        if struct .unpack ('f',OO00OOOO00OO000O0 .scanner .get_original_text (self .local_lock +4 ,4 ))==.5 :#line:337
+            self .normal_lock_addr =self .local_lock +4 #line:338
+            self .seal_lock_addr =self .local_lock +14 #line:339
+        else :#line:340
+            self .normal_lock_addr =self .local_lock +14 #line:341
+            self .seal_lock_addr =self .local_lock +4 #line:342
+        self .original_seal_val ,=struct .unpack ('f',OO00OOOO00OO000O0 .scanner .get_original_text (self .seal_lock_addr ,4 ))#line:343
+        self .original_normal_val ,=struct .unpack ('f',OO00OOOO00OO000O0 .scanner .get_original_text (self .normal_lock_addr ,4 ))#line:344
+        self .main .logger .debug (f'ani_lock/local_lock: {self.normal_lock_addr:X} (original: {self.original_normal_val:.2f})')#line:346
+        self .main .logger .debug (f'ani_lock/seal_lock: {self.seal_lock_addr:X} (original: {self.original_seal_val:.2f})')#line:347
+        self .sync_normal_addr =OO00OOOO00OO000O0 .scanner .find_address ("41 f6 44 24 ? ? 74 ? f3")+0xf #line:349
+        self .sync_normal_original =OO00OOOO00OO000O0 .scanner .get_original_text (self .sync_normal_addr ,8 )#line:350
+        self .main .logger .debug (f'ani_lock/sync_normal: {self.sync_normal_addr:X}')#line:351
+        self .preset_data =main .data .setdefault ('anilock',{})#line:355
+        if 'state'in self .preset_data :#line:356
+            self .state =self .preset_data ['state']#line:357
+        else :#line:358
+            self .preset_data ['state']=self .state #line:359
+    def set_local (self ,val ):#line:361
+        if val ==-1 :#line:362
+            ny_mem .write_float (self .handle ,self .normal_lock_addr ,self .original_normal_val )#line:363
+            ny_mem .write_float (self .handle ,self .seal_lock_addr ,self .original_seal_val )#line:364
+        else :#line:365
+            ny_mem .write_float (self .handle ,self .normal_lock_addr ,min (val ,self .original_normal_val ))#line:366
+            ny_mem .write_float (self .handle ,self .seal_lock_addr ,min (val ,self .original_seal_val ))#line:367
+    def set_sync (self ,mode ):#line:369
+        if mode :#line:370
+            ny_mem .write_bytes (self .handle ,self .sync_normal_addr ,b'\x90'*8 )#line:371
+        else :#line:372
+            ny_mem .write_bytes (self .handle ,self .sync_normal_addr ,self .sync_normal_original )#line:373
+    @property #line:375
+    def state (self ):#line:376
+        if ny_mem .read_ubyte (self .handle ,self .sync_normal_addr )==0x90 :#line:377
+            return ny_mem .read_float (self .handle ,self .normal_lock_addr )#line:378
+        return -1 #line:379
+    @state .setter #line:381
+    def state (self ,value ):#line:382
+        self .set_local (value )#line:383
+        self .set_sync (value !=-1 )#line:384
+    def draw_panel (self ):#line:386
+        OOO0OO0000OOOO0O0 =self .state #line:387
+        imgui .text ("动画锁 建议0.2")#line:388
+        OO00O00O00OO00O00 ,O0O00OOOO00OO0OO0 =imgui .checkbox ("##Enabled",OOO0OO0000OOOO0O0 !=-1 )#line:389
+        imgui .same_line ()#line:390
+        if OO00O00O00OO00O00 :#line:391
+            if OOO0OO0000OOOO0O0 <0 :#line:392
+                self .state =.2 #line:393
+            else :#line:394
+                self .state =-1 #line:395
+        if OOO0OO0000OOOO0O0 !=-1 :#line:396
+            OO00O00O00OO00O00 ,O0O00OOOO00OO0OO0 =imgui .slider_float ("##Value",OOO0OO0000OOOO0O0 ,0 ,.5 ,"%.2f",.01 )#line:397
+            if OO00O00O00OO00O00 :#line:398
+                self .state =O0O00OOOO00OO0OO0 #line:399
+class GetRadius :#line:404
+    key ='__hacks_hook__get_radius__'#line:405
     shell ='''
 def install_get_radius_hook():
     import ctypes
@@ -327,88 +334,88 @@ def install_get_radius_hook():
     setattr(inject_server, key, hook)
     return ctypes.addressof(val)
 res = install_get_radius_hook()
-'''#line:414
-    def __init__ (self ,main :'Hacks'):#line:416
-        self .main =main #line:417
-        self .mem =main .main .mem #line:418
-        self .handle =self .mem .handle #line:419
-        self .hook_addr ,=self .mem .scanner .find_point ("E8 * * * * F3 0F 58 F0 F3 0F 10 05 ? ? ? ?")#line:420
-        self .val_addr =0 #line:421
-        self .preset_data =main .data .setdefault ('combat/get_radius',{})#line:423
-        if 'val'in self .preset_data :#line:424
-            self .val =self .preset_data ['val']#line:425
-        else :#line:426
-            self .preset_data ['val']=-1 #line:427
-            self .main .storage .save ()#line:428
-    @property #line:430
-    def val (self ):#line:431
-        if self .val_addr :#line:432
-            return ny_mem .read_float (self .handle ,self .val_addr )#line:433
-        return -1 #line:434
-    @val .setter #line:436
-    def val (self ,value ):#line:437
-        if value ==-1 :#line:438
-            self .mem .inject_handle .run (f'key = {repr(self.key)};\n'+shell_uninstall )#line:439
-            self .val_addr =0 #line:440
-        else :#line:441
-            if not self .val_addr :#line:442
-                self .val_addr =self .mem .inject_handle .run (f'key = {repr(self.key)}; address = {hex(self.hook_addr)};\n'+self .shell )#line:443
-            ny_mem .write_float (self .handle ,self .val_addr ,value )#line:444
-        self .preset_data ['val']=value #line:445
-        self .main .storage .save ()#line:446
-    def draw_panel (self ):#line:448
-        OO0OOO0OO0OO00OOO =self .val #line:449
-        O0OO0O0O00O0O0000 ,OOOOOOO00O000O0OO =imgui .checkbox ("##Enabled",self .val !=-1 )#line:450
-        if O0OO0O0O00O0O0000 :#line:451
-            self .val =0 if OO0OOO0OO0OO00OOO <0 else -1 #line:452
-        if OO0OOO0OO0OO00OOO !=-1 :#line:453
-            imgui .same_line ()#line:454
-            imgui .text ("目标圈大小")#line:455
-            O0OO0O0O00O0O0000 ,OOOOOOO00O000O0OO =imgui .slider_float ("##Value",self .val ,0 ,4 ,"%.2f",.1 )#line:456
-            if imgui .button ("重置（默认值0）"):#line:457
-                self .val =0 #line:458
-            imgui .same_line ()#line:459
-            if imgui .button ("1.0"):#line:460
-                self .val =1.0 #line:461
-            imgui .same_line ()#line:462
-            if imgui .button ("1.5"):#line:463
-                self .val =1.5 #line:464
-            if O0OO0O0O00O0O0000 :self .val =OOOOOOO00O000O0OO #line:465
-class Recast :#line:468
-    def __init__ (self ,main :'Hacks'):#line:469
-        self .main =main #line:470
-        self .mem =main .main .mem #line:471
-        self .handle =self .mem .handle #line:472
-        OOO0OOO0O0OO00000 ,O000OOOOOOOOOO00O =make_shell ()#line:473
-        self .p_cfg =self .mem .inject_handle .run (OOO0OOO0O0OO00000 ,{'on_get_recast_time':self .mem .scanner .find_point ('e8 * * * * 8b ? 44 ? ? ? 49 ? ? e8 ? ? ? ? 45')[0 ],'on_sync_recast_time':self .mem .scanner .find_address ('40 ? 48 ? ? ? 0f 29 74 24 ? 41 ? ? 0f')},filename =O000OOOOOOOOOO00O )#line:477
-        self .data =main .data .setdefault ('combat',{})#line:478
-        self .cfg =dict2struct (self .data .get ('hook',{}),CombatHookConfig )#line:479
-    @property #line:481
-    def cfg (self ):#line:482
-        return ny_mem .read_memory (self .handle ,CombatHookConfig ,self .p_cfg )#line:483
-    @cfg .setter #line:485
-    def cfg (self ,value ):#line:486
-        ny_mem .write_memory (self .handle ,self .p_cfg ,value )#line:487
-    def draw_panel (self ):#line:489
-        OOOO0O00O0OOOO00O =self .cfg #line:490
-        O000OOOOO00O00000 =False #line:491
-        OO00O0OOO000O00OO =False #line:492
-        OO000OOOOO00O00O0 ,O0O0OO00000OO000O =imgui .slider_float ("Recast time reduce",OOOO0O00O0OOOO00O .recast_time_reduce ,0 ,3 )#line:494
-        if OO000OOOOO00O00O0 :#line:495
-            OOOO0O00O0OOOO00O .recast_time_reduce =O0O0OO00000OO000O #line:496
-            OO00O0OOO000O00OO =True #line:497
-        OO000OOOOO00O00O0 ,O0O0OO00000OO000O =imgui .checkbox ("Mudra no recast",OOOO0O00O0OOOO00O .mudra_no_recast )#line:498
-        if OO000OOOOO00O00O0 :#line:499
-            OOOO0O00O0OOOO00O .mudra_no_recast =O0O0OO00000OO000O #line:500
-            OO00O0OOO000O00OO =True #line:501
-        if OO00O0OOO000O00OO :#line:504
-            self .cfg =OOOO0O00O0OOOO00O #line:505
-            self .data ['hook']=struct2dict (OOOO0O00O0OOOO00O )#line:506
-            O000OOOOO00O00000 =True #line:507
-        if O000OOOOO00O00000 :#line:508
-            self .main .storage .save ()#line:509
-class GetActionRange :#line:512
-    key ='__hacks_hook__get_action_range__'#line:513
+'''#line:423
+    def __init__ (self ,main :'Hacks'):#line:425
+        self .main =main #line:426
+        self .mem =main .main .mem #line:427
+        self .handle =self .mem .handle #line:428
+        self .hook_addr ,=self .mem .scanner .find_point ("E8 * * * * F3 0F 58 F0 F3 0F 10 05 ? ? ? ?")#line:429
+        self .val_addr =0 #line:430
+        self .preset_data =main .data .setdefault ('combat/get_radius',{})#line:432
+        if 'val'in self .preset_data :#line:433
+            self .val =self .preset_data ['val']#line:434
+        else :#line:435
+            self .preset_data ['val']=-1 #line:436
+            self .main .storage .save ()#line:437
+    @property #line:439
+    def val (self ):#line:440
+        if self .val_addr :#line:441
+            return ny_mem .read_float (self .handle ,self .val_addr )#line:442
+        return -1 #line:443
+    @val .setter #line:445
+    def val (self ,value ):#line:446
+        if value ==-1 :#line:447
+            self .mem .inject_handle .run (f'key = {repr(self.key)};\n'+shell_uninstall )#line:448
+            self .val_addr =0 #line:449
+        else :#line:450
+            if not self .val_addr :#line:451
+                self .val_addr =self .mem .inject_handle .run (f'key = {repr(self.key)}; address = {hex(self.hook_addr)};\n'+self .shell )#line:452
+            ny_mem .write_float (self .handle ,self .val_addr ,value )#line:453
+        self .preset_data ['val']=value #line:454
+        self .main .storage .save ()#line:455
+    def draw_panel (self ):#line:457
+        OOOO0O0O000O0000O =self .val #line:458
+        O0O00O00O00OOO000 ,O000O0O00OO0OOO0O =imgui .checkbox ("##Enabled",self .val !=-1 )#line:459
+        if O0O00O00O00OOO000 :#line:460
+            self .val =0 if OOOO0O0O000O0000O <0 else -1 #line:461
+        if OOOO0O0O000O0000O !=-1 :#line:462
+            imgui .same_line ()#line:463
+            imgui .text ("目标圈大小")#line:464
+            O0O00O00O00OOO000 ,O000O0O00OO0OOO0O =imgui .slider_float ("##Value",self .val ,0 ,4 ,"%.2f",.1 )#line:465
+            if imgui .button ("重置（默认值0）"):#line:466
+                self .val =0 #line:467
+            imgui .same_line ()#line:468
+            if imgui .button ("1.0"):#line:469
+                self .val =1.0 #line:470
+            imgui .same_line ()#line:471
+            if imgui .button ("1.5"):#line:472
+                self .val =1.5 #line:473
+            if O0O00O00O00OOO000 :self .val =O000O0O00OO0OOO0O #line:474
+class Recast :#line:477
+    def __init__ (self ,main :'Hacks'):#line:478
+        self .main =main #line:479
+        self .mem =main .main .mem #line:480
+        self .handle =self .mem .handle #line:481
+        O0000OO0O0O0O0000 ,OO0O0OOOOO00OOOO0 =make_shell ()#line:482
+        self .p_cfg =self .mem .inject_handle .run (O0000OO0O0O0O0000 ,{'on_get_recast_time':self .mem .scanner .find_point ('e8 * * * * 8b ? 44 ? ? ? 49 ? ? e8 ? ? ? ? 45')[0 ],'on_sync_recast_time':self .mem .scanner .find_address ('40 ? 48 ? ? ? 0f 29 74 24 ? 41 ? ? 0f')},filename =OO0O0OOOOO00OOOO0 )#line:486
+        self .data =main .data .setdefault ('combat',{})#line:487
+        self .cfg =dict2struct (self .data .get ('hook',{}),CombatHookConfig )#line:488
+    @property #line:490
+    def cfg (self ):#line:491
+        return ny_mem .read_memory (self .handle ,CombatHookConfig ,self .p_cfg )#line:492
+    @cfg .setter #line:494
+    def cfg (self ,value ):#line:495
+        ny_mem .write_memory (self .handle ,self .p_cfg ,value )#line:496
+    def draw_panel (self ):#line:498
+        OO000000OO00O0OO0 =self .cfg #line:499
+        OO00000O000OOOOO0 =False #line:500
+        O0O0O0O000000O0O0 =False #line:501
+        O00O00O0O0O00OO00 ,O0OO0O000OOOOO0O0 =imgui .slider_float ("Recast time reduce",OO000000OO00O0OO0 .recast_time_reduce ,0 ,3 )#line:503
+        if O00O00O0O0O00OO00 :#line:504
+            OO000000OO00O0OO0 .recast_time_reduce =O0OO0O000OOOOO0O0 #line:505
+            O0O0O0O000000O0O0 =True #line:506
+        O00O00O0O0O00OO00 ,O0OO0O000OOOOO0O0 =imgui .checkbox ("Mudra no recast",OO000000OO00O0OO0 .mudra_no_recast )#line:507
+        if O00O00O0O0O00OO00 :#line:508
+            OO000000OO00O0OO0 .mudra_no_recast =O0OO0O000OOOOO0O0 #line:509
+            O0O0O0O000000O0O0 =True #line:510
+        if O0O0O0O000000O0O0 :#line:513
+            self .cfg =OO000000OO00O0OO0 #line:514
+            self .data ['hook']=struct2dict (OO000000OO00O0OO0 )#line:515
+            OO00000O000OOOOO0 =True #line:516
+        if OO00000O000OOOOO0 :#line:517
+            self .main .storage .save ()#line:518
+class GetActionRange :#line:521
+    key ='__hacks_hook__get_action_range__'#line:522
     shell ='''
 def install_get_action_range_hook():
     import ctypes
@@ -425,56 +432,61 @@ def install_get_action_range_hook():
     setattr(inject_server, key, hook)
     return ctypes.addressof(val)
 res = install_get_action_range_hook()
-'''#line:531
-    def __init__ (self ,main :'Hacks'):#line:533
-        self .main =main #line:534
-        self .mem =main .main .mem #line:535
-        self .handle =self .mem .handle #line:536
-        self .hook_addr ,=self .mem .scanner .find_point ("e8 * * * * f3 0f 11 43 ? 80 ? ?")#line:537
-        self .val_addr =0 #line:538
-        self .preset_data =main .data .setdefault ('combat/get_action_range',{})#line:540
-        if 'val'in self .preset_data :#line:541
-            self .val =self .preset_data ['val']#line:542
-        else :#line:543
-            self .preset_data ['val']=0 #line:544
-            self .main .storage .save ()#line:545
-    @property #line:547
-    def val (self ):#line:548
-        if self .val_addr :#line:549
-            return ny_mem .read_float (self .handle ,self .val_addr )#line:550
-        return -1 #line:551
-    @val .setter #line:553
-    def val (self ,value ):#line:554
-        if value ==-1 :#line:555
-            self .mem .inject_handle .run (f'key = {repr(self.key)};\n'+shell_uninstall )#line:556
-            self .val_addr =0 #line:557
-        else :#line:558
-            if not self .val_addr :#line:559
-                self .val_addr =self .mem .inject_handle .run (f'key = {repr(self.key)}; address = {hex(self.hook_addr)};\n'+self .shell )#line:560
-            ny_mem .write_float (self .handle ,self .val_addr ,value )#line:561
-        self .preset_data ['val']=value #line:562
-        self .main .storage .save ()#line:563
-    def draw_panel (self ):#line:565
-        O000OO0OOO0O00OOO =self .val #line:566
-        vars .actionrange =self .val #line:567
-        imgui .text ("长臂猿")#line:568
-        OO00000OOOO00O000 ,OO000O0O0OO0O0O00 =imgui .checkbox ("##Enabled",self .val !=-1 )#line:569
-        if OO00000OOOO00O000 :#line:570
-            self .val =0 if O000OO0OOO0O00OOO <0 else -1 #line:571
-        if O000OO0OOO0O00OOO !=-1 :#line:572
-            OO00000OOOO00O000 ,OO000O0O0OO0O0O00 =imgui .slider_float ("##Value",O000OO0OOO0O00OOO ,0 ,4 ,"%.2f",.1 )#line:574
-            if imgui .button ("重置（默认值0）"):#line:575
-                self .val =0 #line:576
-            imgui .same_line ()#line:577
-            if imgui .button ("1.0"):#line:578
-                self .val =1.0 #line:579
-            imgui .same_line ()#line:580
-            if imgui .button ("1.5"):#line:581
-                self .val =1.5 #line:582
-            imgui .same_line ()#line:583
-            if imgui .button ("2"):#line:584
-                self .val =2.0 #line:585
-            if OO00000OOOO00O000 :self .val =OO000O0O0OO0O0O00 #line:586
-            if imgui .button ("40"):#line:587
-                self .val =40.0 #line:588
-            if OO00000OOOO00O000 :self .val =OO000O0O0OO0O0O00 #line:589
+'''#line:540
+    def __init__ (self ,main :'Hacks'):#line:542
+        self .main =main #line:543
+        self .mem =main .main .mem #line:544
+        self .handle =self .mem .handle #line:545
+        self .hook_addr ,=self .mem .scanner .find_point ("e8 * * * * f3 0f 11 43 ? 80 ? ?")#line:546
+        self .val_addr =0 #line:547
+        self .preset_data =main .data .setdefault ('combat/get_action_range',{})#line:549
+        if 'val'in self .preset_data :#line:550
+            self .val =self .preset_data ['val']#line:551
+        else :#line:552
+            self .preset_data ['val']=0 #line:553
+            self .main .storage .save ()#line:554
+        main .main .command .on_command ['SIRENGetActionRange'].append (self .cmd_AFK )#line:555
+    def cmd_AFK (self ,_ ,args ):#line:557
+        if len (args )<1 :return #line:558
+        if args [0 ]:#line:559
+            self .val =int (args [0 ])#line:560
+    @property #line:562
+    def val (self ):#line:563
+        if self .val_addr :#line:564
+            return ny_mem .read_float (self .handle ,self .val_addr )#line:565
+        return -1 #line:566
+    @val .setter #line:568
+    def val (self ,value ):#line:569
+        if value ==-1 :#line:570
+            self .mem .inject_handle .run (f'key = {repr(self.key)};\n'+shell_uninstall )#line:571
+            self .val_addr =0 #line:572
+        else :#line:573
+            if not self .val_addr :#line:574
+                self .val_addr =self .mem .inject_handle .run (f'key = {repr(self.key)}; address = {hex(self.hook_addr)};\n'+self .shell )#line:575
+            ny_mem .write_float (self .handle ,self .val_addr ,value )#line:576
+        self .preset_data ['val']=value #line:577
+        self .main .storage .save ()#line:578
+    def draw_panel (self ):#line:580
+        OOOO0O0000OO00O0O =self .val #line:581
+        vars .actionrange =self .val #line:582
+        imgui .text ("长臂猿")#line:583
+        OO00OO000OOO0O00O ,O0OOO00OO0O000OOO =imgui .checkbox ("##Enabled",self .val !=-1 )#line:584
+        if OO00OO000OOO0O00O :#line:585
+            self .val =0 if OOOO0O0000OO00O0O <0 else -1 #line:586
+        if OOOO0O0000OO00O0O !=-1 :#line:587
+            OO00OO000OOO0O00O ,O0OOO00OO0O000OOO =imgui .slider_float ("##Value",OOOO0O0000OO00O0O ,0 ,4 ,"%.2f",.1 )#line:589
+            if imgui .button ("重置（默认值0）"):#line:590
+                self .val =0 #line:591
+            imgui .same_line ()#line:592
+            if imgui .button ("1.0"):#line:593
+                self .val =1.0 #line:594
+            imgui .same_line ()#line:595
+            if imgui .button ("1.5"):#line:596
+                self .val =1.5 #line:597
+            imgui .same_line ()#line:598
+            if imgui .button ("2"):#line:599
+                self .val =2.0 #line:600
+            if OO00OO000OOO0O00O :self .val =O0OOO00OO0O000OOO #line:601
+            if imgui .button ("40"):#line:602
+                self .val =40.0 #line:603
+            if OO00OO000OOO0O00O :self .val =O0OOO00OO0O000OOO #line:604

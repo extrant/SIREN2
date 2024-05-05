@@ -90,7 +90,7 @@ res = install_speed_hook()
         self.hook_addr_2 = self.mem.scanner.find_address("40 ? 48 83 EC ? 48 8B ? 48 8B ? FF 90 ? ? ? ? 48 85 ? 75")
         self.hook_addr_3 = self.mem.scanner.find_address("40 ? 48 83 EC ? 48 8B ? 48 8B ? FF 90 ? ? ? ? 48 85 ? 75")
         self.max_accel_addr, self.speed_addr = self.mem.inject_handle.run(f'key = {repr(self.key)}; address1 = {hex(self.hook_addr_1)};address2 = {hex(self.hook_addr_2)};\n' + self.shell)
-        self.main.main.command.on_command['SirenPVPSpeed'].append(self.cmd_speed) 
+        self.main.main.command.on_command['SIRENSpeed'].append(self.cmd_speed) 
         self.preset_data = main.data.setdefault('combat/speed', {})
         if 'max_accel' in self.preset_data:
             self.max_accel = self.preset_data['max_accel']
@@ -187,7 +187,7 @@ uninstall(key)
         self.LBKnock=False
         self.actorLBAdress1 = self.mem.scanner_v2.find_val("E8 * * * * C6 83 ?? ?? ?? ?? ?? EB ?? 0F 57 C9")
         self.actorKnockKey1='__hacks_hook__AIAKnock__'
-        main.main.command.on_command['SirenPVPAIA'].append(self.cmd_AFK) 
+        main.main.command.on_command['SIRENLBMove'].append(self.cmd_AFK) 
         
     def cmd_AFK(self, _, args):
         if len(args) < 1: return
@@ -233,6 +233,40 @@ class NoFallDamage:
             'speed_percent': 1,
         }), MoveHookConfig)
         self.safe_mode = False
+
+        main.main.command.on_command['SIRENNoFallDamage'].append(self.cmd_AFK) 
+        main.main.command.on_command['SIRENYAdjust'].append(self.cmd_AFK2) 
+    def cmd_AFK(self, _, args):
+        cfg = self.cfg
+        any_data_change = False
+        any_hook_change = False        
+        if len(args) < 1: return
+        if args[0] == "On":
+            cfg.no_fall_damage = True
+            any_hook_change = True                     
+        if args[0] == "Off":
+            cfg.no_fall_damage = False
+            any_hook_change = True   
+        if any_hook_change:
+            self.cfg = cfg
+            self.data['hook'] = struct2dict(cfg)
+            any_data_change = True
+        if any_data_change:
+            self.main.storage.save()       
+    def cmd_AFK2(self, _, args):
+        cfg = self.cfg
+        any_data_change = False
+        any_hook_change = False        
+        if len(args) < 1: return
+        if args[0]:
+            cfg.y_adjust = int(args[0])  
+            any_hook_change = True
+        if any_hook_change:
+            self.cfg = cfg
+            self.data['hook'] = struct2dict(cfg)
+            any_data_change = True
+        if any_data_change:
+            self.main.storage.save()                      
     @property
     def cfg(self):
         return ny_mem.read_memory(self.handle, MoveHookConfig, self.p_cfg)
@@ -292,6 +326,14 @@ class MovePermission:
         self.inject = ShellInject(self.p_code,)
         self.update_inject()
         self.state = False
+        main.main.command.on_command['SIRENMovePermission'].append(self.cmd_AFK) 
+        
+    def cmd_AFK(self, _, args):
+        if len(args) < 1: return
+        if args[0] == "On":
+            self.inject.state = True                        
+        if args[0] == "Off":
+            self.inject.state = False
 
     def update_inject(self):
         self.inject.disable()
@@ -414,7 +456,7 @@ def uninstall_multi(key):
         self.antiKnock=False
         self.actorKnockAdress = self.mem.scanner.find_address("48 8B C4 48 89 70 ? 57 48 81 EC ? ? ? ? 0F 29 70 ? 0F 28 C1")
         self.actorKnockKey='__hacks_hook__actorKnock__'
-        main.main.command.on_command['SirenPVPAKA'].append(self.cmd_AFK) 
+        main.main.command.on_command['SIRENActorKnock'].append(self.cmd_AFK) 
         
     def cmd_AFK(self, _, args):
         if len(args) < 1: return
@@ -457,9 +499,9 @@ class MiniHackTP:
         self.me= self.main.mem.mem.actor_table.me        
         self.territory = ''
         self.collapsed_states = {}
-        main.main.command.on_command['SirenPVPTP'].append(self.cmd_tp)         
-        main.main.command.on_command['SirenPVPTPMo'].append(self.cmd_tp2)
-        main.main.command.on_command['SirenPVPTPFly'].append(self.fly_tp)
+        main.main.command.on_command['SIRENTP'].append(self.cmd_tp)         
+        main.main.command.on_command['SIRENTPMo'].append(self.cmd_tp2)
+        main.main.command.on_command['SIRENTPFly'].append(self.fly_tp)
         self.tp=False
         self.tid = -1
         self.me_pos_temp = None
@@ -611,7 +653,7 @@ class MiniHackTP:
                     if imgui.button("跨界传送"):
                         self.me_pos_temp = self.me.pos
                         self.wait_to_teleport = True
-                        self.mem.do_text_command(f'/#SirenPVPSpeed 0')
+                        self.mem.do_text_command(f'/#SIRENSpeed 0')
                         self.mem.do_text_command(f'/e 移速已为0 <se.11><se.11><se.11><se.11>')
                         coord = coordinates[self.selected_coordinate_index]['coordinates']
                         self.mem.do_text_command(f'/e 你的TP位置{coord}')
@@ -623,7 +665,7 @@ class MiniHackTP:
                         if imgui.button("取消"):
                             self.me_pos_temp = self.me.pos
                             self.wait_to_teleport = False  
-                            self.mem.do_text_command(f'/#SirenPVPSpeed 1')                
+                            self.mem.do_text_command(f'/#SIRENSpeed 1')                
 
                         #self.teleport_to_coordinate(coord)
                         #print(coord)
@@ -635,7 +677,7 @@ class MiniHackTP:
                                 coord = coordinates[self.selected_coordinate_index]['coordinates']
                                 if str(selected_map_id) != str(self.tid):
                                     self.mem.do_text_command(f'/e 地图id不符 <se.11><se.11><se.11><se.11>')
-                                    self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+                                    self.mem.do_text_command(f'/#SIRENSpeed 1')
                                     self.mem.do_text_command(f'/e 移速已恢复 <se.6><se.6><se.6><se.6>')                            
                                 else:
                                     self.teleport_to_coordinate(coord)
@@ -706,7 +748,7 @@ class MiniHackTP:
         ooPos= self.me.pos + glm.vec3(0, 1, 0)
         ny_mem.write_bytes(self.me.handle, self.me.address + self.me.offsets.pos, ooPos.to_bytes())
     def teleport_to_coordinate(self, coordinates):
-        self.mem.do_text_command(f'/#SirenPVPSpeed 1')
+        self.mem.do_text_command(f'/#SIRENSpeed 1')
         self.mem.do_text_command(f'/e TP成功，移速已恢复 <se.4><se.4><se.4><se.4>')
         self.wait_to_teleport = False
         x, y, z = map(float, coordinates.split(','))
