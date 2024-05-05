@@ -14,7 +14,7 @@ def select_du_enemy(m: CombatMem, select_status_id: int) -> Optional[Actor]:
     if not me : return None
     me_pos = me.pos
 
-    inv_status_ids = {1302, 3054}
+    inv_status_ids = {1302, 3054, 1240}
     def target_validator(a: Actor) -> bool:
         if not m.is_enemy(me, a): return False
         real_hp = a.shield * a.max_hp / 100 + a.current_hp
@@ -67,10 +67,9 @@ def select_du_kuosan_enemy(m: CombatMem, select_status_id: int) -> Optional[Acto
                 has_select_status = True
         return has_select_status 
     
-    actor_temp = m.mem.actor_table.iter_actor_by_type(1)
     k = lambda a: glm.distance(me_pos, a.pos) 
-    t = [actor for actor in actor_temp if target_validator(actor)  and k(actor) <= 30]
-    t2 = [actor for actor in actor_temp]
+    t = [actor for actor in m.mem.actor_table.iter_actor_by_type(1) if target_validator(actor)  and k(actor) <= 30]
+    t2 = [actor for actor in m.mem.actor_table.iter_actor_by_type(1)]
 
     if not t: return None
     actor_counts = {}
@@ -105,10 +104,9 @@ def select_du_kuosan_enemy_double(m: CombatMem, select_status_id: int) -> Option
                 has_select_status = True
         return has_select_status
 
-    actor_temp = m.mem.actor_table.iter_actor_by_type(1)
     k = lambda a: glm.distance(me_pos, a.pos)
-    t = [actor for actor in actor_temp if target_validator(actor)  and k(actor) <= 30]
-    t2 = [actor for actor in actor_temp]
+    t = [actor for actor in m.mem.actor_table.iter_actor_by_type(1) if target_validator(actor)  and k(actor) <= 30]
+    t2 = [actor for actor in m.mem.actor_table.iter_actor_by_type(1)]
 
     if not t:return None
     actor_counts = {}
@@ -129,7 +127,7 @@ def kugu_enemy(m: CombatMem, select_status_id: int) -> Optional[Actor]:
     if not me : return None
     me_pos = me.pos  
 
-    inv_status_ids = {3039, 2413, 1302, 1301, 3054}  
+    inv_status_ids = {3039, 2413, 1302, 1301, 1240}  
     def target_validator(a: Actor) -> bool:  # 目标验证器
         if not m.is_enemy(me, a): return False
         real_hp = a.shield * a.max_hp / 100 + a.current_hp
@@ -162,8 +160,11 @@ def sch_test(m, is_pvp=True):
     du_remain = m.action_state.get_cool_down_by_action(29233).remain
     kuosan_remain = m.action_state.get_cool_down_by_action(29234).remain
     debuff_status_ids = {1345, 3022, 1348, 1343, 1347}
+
+    heal_status = {1240, 3206}
     heal_jinhua = m.action_state.get_cool_down_by_action(29056).remain
     kugu_remain = m.action_state.get_cool_down_by_action(29235).remain
+    heal_remain = m.action_state.get_cool_down_by_action(29232).remain
     target_enemy = select_du_enemy(m, 1240)
     target_kuosan = select_du_kuosan_enemy(m, 3089)
     target_kuosan_double = select_du_kuosan_enemy_double(m, 3089)
@@ -192,6 +193,12 @@ def sch_test(m, is_pvp=True):
             m.action_state.use_action(29235, target_kugu.id)
     if any(status_id in me.status for status_id in debuff_status_ids) and heal_jinhua == 0:
         m.action_state.use_action(29056)
+    if any(status_id in me.status for status_id in heal_status) and heal_jinhua == 0 and heal_remain < 15:
+        if me.current_hp != me.max_hp and me.current_mp > me.max_mp * 0.25:
+            m.action_state.use_action(29711)
+            m.action_state.use_action(29232)  
+        else:
+            m.action_state.use_action(29232)  
     if me.current_hp < me.max_hp * 0.5 and me.current_mp > me.max_mp * 0.25:
         m.action_state.use_action(29711)
 
