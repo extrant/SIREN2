@@ -111,7 +111,7 @@ class LifuHelper():
         self.run_count += 1
         PktWorks.instance.zone.send(build_event_start(0xe0000, 0x10087342b))
         PktWorks.instance.zone.send(
-            build_inventory_handler(0x10000010, 0x2b0, 0x0, 0x1, self.find_item(36115).container_idx, self.find_item(36115).quantity, 0x0, 0x0, 0x7d5, 0x0, 0x0, 0x0),
+            build_inventory_handler(0x10000000, 0x304, 0x0, self.find_item(36115).storage_id, self.find_item(36115).container_idx, self.find_item(36115).quantity, 0x0, 0x0, 0x7d5, 0x0, 0x0, 0x0),
             route=Sniffer.instance.on_zone_server_message[ZoneServer.InventoryActionAck],
         )   
         args3 = [0x8d13, 0x3, 0x1, 0x663]
@@ -138,6 +138,7 @@ class LifuHelper():
 
 
         if imgui.button('EventHook(MUST)') :
+
             if not self.actionMove:
                 ny_mem.write_ubyte(self.handle, self.write_1, 0xc3)
                 ny_mem.write_ubyte(self.handle, self.write_2, 0xc3)
@@ -151,9 +152,9 @@ class LifuHelper():
         imgui.text(f'Hook：{"开启" if self.actionMove else "关闭"}')  
         imgui.same_line()
         if self.find_item(36115) is not None:
-            imgui.text(f'巨匠药酒:DEC:{self.find_item(36115).quantity} HEX:{hex(self.find_item(36115).quantity)}')
+            imgui.text(f'巨匠药酒:DEC:{self.find_item(36115).quantity} HEX:{hex(self.find_item(36115).quantity)} Storage:{hex(self.find_item(36115).storage_id)}')
         changed, self.delay = imgui.slider_float("Delay", self.delay, 0.1, 2.0, "%.1f", 1)
-                        
+        imgui.text("刷完后请关闭这个HOOK")                
         imgui.separator()
         if self.actionMove is True:
             changed, self.total_runs = imgui.input_int(f"运行次数{self.run_count}", self.total_runs)
